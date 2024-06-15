@@ -4,8 +4,9 @@ extends Node2D
 @onready var enemy = $Enemy
 @onready var camera = $Camera2D
 
-
 var player_spawn_pos
+
+var blast_scene : PackedScene = preload("res://Scenes/blast.tscn")
 
 
 #Game Functions
@@ -15,6 +16,7 @@ func _ready():
 	Events.connect("shoot", fire_bullet)
 	Events.connect("respawn_player", respawn_player)
 	Events.connect("shake_camera", camera_shake)
+	Events.connect("blast", create_blast)
 	
 func _process(delta):
 	pass
@@ -41,3 +43,8 @@ func camera_shake(shake_amount, rangeX:float, rangeY:float):
 			camera.offset = Vector2.ZERO
 			
 		await Events.timer(0.02)
+		
+func create_blast(blast_position):
+	var new_blast = blast_scene.instantiate()
+	new_blast.position = blast_position
+	add_child(new_blast)

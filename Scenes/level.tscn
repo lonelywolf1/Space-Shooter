@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://d330rdbdevcdw"]
+[gd_scene load_steps=7 format=3 uid="uid://d330rdbdevcdw"]
 
 [ext_resource type="PackedScene" uid="uid://cspt2552trc1o" path="res://Scenes/player.tscn" id="1_55bs3"]
 [ext_resource type="Script" path="res://Scripts/level.gd" id="1_hwlgs"]
@@ -6,14 +6,23 @@
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_iwequ"]
 
+[sub_resource type="Curve" id="Curve_vl3jw"]
+_data = [Vector2(0.0224719, 0.021978), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 5.14749, 0.0, 0, 0, Vector2(0.685393, 0.67033), 10.7582, 10.7582, 0, 0, Vector2(0.994382, 0.032967), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_m3pcl"]
+offsets = PackedFloat32Array(0, 0.186667, 0.813333, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="Level" type="Node2D"]
+position = Vector2(-577, -323)
 script = ExtResource("1_hwlgs")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(577.1, 323.12)
 
 [node name="Player" parent="." instance=ExtResource("1_55bs3")]
-position = Vector2(583, 299)
+position = Vector2(576, 474)
 
 [node name="World Boundaries" type="StaticBody2D" parent="."]
 
@@ -50,3 +59,19 @@ position = Vector2(696, 174)
 
 [node name="Enemy5" parent="." instance=ExtResource("3_56v4v")]
 position = Vector2(435, 86)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(577, 265)
+amount = 200
+lifetime = 8.0
+preprocess = 10.0
+speed_scale = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(650, 350)
+direction = Vector2(0, 1)
+gravity = Vector2(0, 10)
+initial_velocity_max = 10.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_vl3jw")
+color_ramp = SubResource("Gradient_m3pcl")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cspt2552trc1o"]
+[gd_scene load_steps=12 format=3 uid="uid://cspt2552trc1o"]
 
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="1_2dcpd"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_xduph"]
@@ -41,28 +41,151 @@ _data = {
 "invincible": SubResource("Animation_mnx7s")
 }
 
+[sub_resource type="Animation" id="Animation_yrvnt"]
+resource_name = "shoot"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D/Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1.27456),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oqvsq"]
+_data = {
+"shoot": SubResource("Animation_yrvnt")
+}
+
+[sub_resource type="Animation" id="Animation_1c7pb"]
+resource_name = "idle"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(9.845, 10.65), Vector2(-9.505, 11.905), Vector2(14.195, -11.33), Vector2(-9.15, -12.865), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionPolygon2D:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0872665, 0.0959931, -0.0698132, 0.139626, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_fe6ek"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionPolygon2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5astl"]
+_data = {
+"RESET": SubResource("Animation_fe6ek"),
+"idle": SubResource("Animation_1c7pb")
+}
+
+[sub_resource type="Gradient" id="Gradient_fqnbv"]
+offsets = PackedFloat32Array(0, 0.263158, 0.723684, 1)
+colors = PackedColorArray(1, 0, 0, 0, 0.760784, 0, 0, 0.815686, 0.760203, 3.70607e-06, 4.81307e-07, 0.815686, 1, 0, 0, 0)
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 0
 script = ExtResource("1_xduph")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_2dcpd")
-region_enabled = true
-region_rect = Rect2(193, 66, 63, 66)
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-1, -27, 7, 2, 10, 5, 20, 5, 24, 12, 23, 18, 17, 21, 13, 21, 8, 16, 8, 9, 6, 7, 0, 14, -7, 7, -10, 10, -8, 11, -9, 16, -12, 21, -20, 21, -24, 16, -24, 10, -21, 7, -15, 5, -12, 6, -8, 2)
 
-[node name="BulletDetector" type="Area2D" parent="."]
+[node name="BulletDetector" type="Area2D" parent="CollisionPolygon2D"]
 collision_layer = 0
 collision_mask = 4
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="BulletDetector"]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CollisionPolygon2D/BulletDetector"]
 polygon = PackedVector2Array(-1, -27, 7, 2, 10, 5, 20, 5, 24, 12, 23, 18, 17, 21, 13, 21, 8, 16, 8, 9, 6, 7, 0, 14, -7, 7, -10, 10, -8, 11, -9, 16, -12, 21, -20, 21, -24, 16, -24, 10, -21, 7, -15, 5, -12, 6, -8, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionPolygon2D"]
+position = Vector2(0, 20)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("1_2dcpd")
+offset = Vector2(0, -18.6667)
+region_enabled = true
+region_rect = Rect2(193, 66, 63, 66)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_vbsuf")
 }
 
-[connection signal="area_entered" from="BulletDetector" to="." method="_on_bullet_detector_area_entered"]
+[node name="Animation_shoot" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_oqvsq")
+}
+
+[node name="IdleAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5astl")
+}
+autoplay = "idle"
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 0.85
+emission_shape = 3
+emission_rect_extents = Vector2(5, 10)
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+angular_velocity_min = 89.92
+angular_velocity_max = 360.0
+damping_min = 85.0
+damping_max = 100.0
+angle_min = 114.8
+angle_max = 260.9
+scale_amount_min = 8.0
+scale_amount_max = 17.0
+color_ramp = SubResource("Gradient_fqnbv")
+
+[connection signal="area_entered" from="CollisionPolygon2D/BulletDetector" to="." method="_on_bullet_detector_area_entered"]

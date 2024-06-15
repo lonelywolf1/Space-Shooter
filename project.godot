@@ -18,3 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Events="*res://Scenes/events.tscn"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.00259858, 0.00772756, 0.0796915, 1)

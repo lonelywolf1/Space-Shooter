@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvbcr72gy44tg"]
+[gd_scene load_steps=4 format=3 uid="uid://bvbcr72gy44tg"]
 
 [ext_resource type="Script" path="res://Scenes/enemy_shot.gd" id="1_wa16n"]
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="2_pa8wp"]
+
+[sub_resource type="Gradient" id="Gradient_48rda"]
+offsets = PackedFloat32Array(0, 0.188596, 0.785088, 1)
+colors = PackedColorArray(0.415686, 0, 0, 0, 1, 0.377991, 0.31005, 0.929412, 0.999997, 0.229336, 0.176105, 0.929412, 0.415686, 0, 0, 0)
 
 [node name="Enemy Shot" type="Area2D"]
 rotation = 3.14159
@@ -21,5 +25,29 @@ polygon = PackedVector2Array(-1, -16, 8, 7, 0, 16, -9, 7)
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, -0.5)
 scale = Vector2(1, 1.55)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-3.99996, -16)
+amount = 25
+lifetime = 0.7
+explosiveness = 0.5
+randomness = 0.31
+emission_shape = 3
+emission_rect_extents = Vector2(15, 3)
+spread = 100.0
+gravity = Vector2(0, 250)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+angular_velocity_min = 313.05
+angular_velocity_max = 511.3
+linear_accel_min = 11.59
+linear_accel_max = 49.27
+damping_min = 78.02
+damping_max = 100.0
+angle_min = 62.6
+angle_max = 240.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color_ramp = SubResource("Gradient_48rda")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
