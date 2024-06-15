@@ -9,6 +9,9 @@
 [node name="Level" type="Node2D"]
 script = ExtResource("1_hwlgs")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(577.1, 323.12)
+
 [node name="Player" parent="." instance=ExtResource("1_55bs3")]
 position = Vector2(583, 299)
 

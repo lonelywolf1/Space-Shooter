@@ -21,7 +21,7 @@ func _process(delta):
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("ui_accept"):
-		Events.shoot.emit(bullet_shot_scene, position)
+		Events.shoot.emit(bullet_shot_scene, position, true)
 	
 func apply_friction_onplayer():
 	velocity *= 0.96
@@ -32,6 +32,7 @@ func player_hit(amount):
 			kill_player()
 			
 		give_invincibility()
+		Events.shake_camera.emit(randi_range(4, 6), 3.0, 2.0)
 		
 func give_invincibility():
 	is_invincible = true
