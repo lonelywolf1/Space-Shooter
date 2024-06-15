@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://d330rdbdevcdw"]
+
+[ext_resource type="PackedScene" uid="uid://cspt2552trc1o" path="res://Scenes/player.tscn" id="1_55bs3"]
+[ext_resource type="Script" path="res://Scripts/level.gd" id="1_hwlgs"]
+[ext_resource type="PackedScene" uid="uid://2cdgiu2ntvlw" path="res://Scenes/enemy.tscn" id="3_56v4v"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_iwequ"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_hwlgs")
+
+[node name="Player" parent="." instance=ExtResource("1_55bs3")]
+position = Vector2(583, 299)
+
+[node name="World Boundaries" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(583, 0)
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(583, 649)
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(1153, 332)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(0, 332)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="Enemy" parent="." instance=ExtResource("3_56v4v")]
+position = Vector2(575, 75)
+
+[node name="Enemy2" parent="." instance=ExtResource("3_56v4v")]
+position = Vector2(273, 107)
+
+[node name="Enemy3" parent="." instance=ExtResource("3_56v4v")]
+position = Vector2(829, 58)
+
+[node name="Enemy4" parent="." instance=ExtResource("3_56v4v")]
+position = Vector2(696, 174)
+
+[node name="Enemy5" parent="." instance=ExtResource("3_56v4v")]
+position = Vector2(435, 86)

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvbcr72gy44tg"]
+
+[ext_resource type="Script" path="res://Scenes/enemy_shot.gd" id="1_wa16n"]
+[ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="2_pa8wp"]
+
+[node name="Enemy Shot" type="Area2D"]
+rotation = 3.14159
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_wa16n")
+shot_speed = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_pa8wp")
+region_enabled = true
+region_rect = Rect2(79, 9, 35, 47)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-1, -16, 8, 7, 0, 16, -9, 7)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -0.5)
+scale = Vector2(1, 1.55)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
