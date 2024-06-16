@@ -7,6 +7,7 @@ extends Node2D
 var player_spawn_pos
 
 var blast_scene : PackedScene = preload("res://Scenes/blast.tscn")
+var loaded = false
 
 
 #Game Functions
@@ -22,9 +23,17 @@ func _process(delta):
 	pass
 	
 #Custom Functions
-func fire_bullet(bullet_scene, bullet_position, is_player=false):
+func fire_bullet(bullet_scene, bullet_position, bullet_rotation=0.0, is_player=false):
 	var new_bullet = bullet_scene.instantiate()
 	new_bullet.position = bullet_position
+	
+	var rot_flip = 0
+	if not is_player:
+		rot_flip = 180
+	else:
+		rot_flip = 0
+		
+	new_bullet.rotation = bullet_rotation - deg_to_rad(rot_flip)
 	add_child(new_bullet)
 
 func respawn_player():

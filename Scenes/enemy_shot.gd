@@ -1,9 +1,10 @@
 extends Area2D
 
-@export var shot_speed = 20
+@export var shot_speed = 5
 
 func _process(delta):
-	position.y += shot_speed
+	var direction = Vector2.UP.rotated(rotation)
+	#position += shot_speed*direction
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	done()

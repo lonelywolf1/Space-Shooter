@@ -1,7 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://cspt2552trc1o"]
+[gd_scene load_steps=13 format=3 uid="uid://cspt2552trc1o"]
 
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="1_2dcpd"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_xduph"]
+
+[sub_resource type="Curve" id="Curve_2ohr0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.582031, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_jhyqi"]
+offsets = PackedFloat32Array(0, 0.140351, 0.587719, 0.789474, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 0.180392, 0, 0.92549, 0.909262, 0.706577, 0, 0.882353, 0.936291, 0.79398, 0.297872, 0.619524, 1, 1, 1, 0)
 
 [sub_resource type="Animation" id="Animation_6rigj"]
 length = 0.001
@@ -62,6 +70,33 @@ _data = {
 "shoot": SubResource("Animation_yrvnt")
 }
 
+[sub_resource type="Animation" id="Animation_fe6ek"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionPolygon2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_1c7pb"]
 resource_name = "idle"
 length = 5.0
@@ -91,42 +126,11 @@ tracks/1/keys = {
 "values": [0.0, -0.0872665, 0.0959931, -0.0698132, 0.139626, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_fe6ek"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionPolygon2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CollisionPolygon2D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5astl"]
 _data = {
 "RESET": SubResource("Animation_fe6ek"),
 "idle": SubResource("Animation_1c7pb")
 }
-
-[sub_resource type="Gradient" id="Gradient_fqnbv"]
-offsets = PackedFloat32Array(0, 0.263158, 0.723684, 1)
-colors = PackedColorArray(1, 0, 0, 0, 0.760784, 0, 0, 0.815686, 0.760203, 3.70607e-06, 4.81307e-07, 0.815686, 1, 0, 0, 0)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 0
@@ -143,12 +147,87 @@ collision_mask = 4
 polygon = PackedVector2Array(-1, -27, 7, 2, 10, 5, 20, 5, 24, 12, 23, 18, 17, 21, 13, 21, 8, 16, 8, 9, 6, 7, 0, 14, -7, 7, -10, 10, -8, 11, -9, 16, -12, 21, -20, 21, -24, 16, -24, 10, -21, 7, -15, 5, -12, 6, -8, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionPolygon2D"]
-position = Vector2(0, 20)
+position = Vector2(0, 17)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("1_2dcpd")
-offset = Vector2(0, -18.6667)
+offset = Vector2(0, -16.1667)
 region_enabled = true
 region_rect = Rect2(193, 66, 63, 66)
+
+[node name="FloatParticles" type="CPUParticles2D" parent="CollisionPolygon2D/Sprite2D"]
+visible = false
+position = Vector2(0, -2.5)
+scale = Vector2(0.833333, 0.833333)
+amount = 200
+lifetime = 0.2
+explosiveness = 0.08
+randomness = 0.16
+lifetime_randomness = 0.03
+direction = Vector2(0, 1)
+spread = 27.39
+gravity = Vector2(0, -400)
+initial_velocity_min = 40.0
+initial_velocity_max = 250.0
+orbit_velocity_min = 0.05
+orbit_velocity_max = 0.15
+damping_min = 325.0
+damping_max = 450.0
+angle_min = 281.8
+angle_max = 688.7
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_2ohr0")
+color_ramp = SubResource("Gradient_jhyqi")
+
+[node name="Right_Jet" type="Sprite2D" parent="CollisionPolygon2D/Sprite2D"]
+z_index = -1
+position = Vector2(14.1667, -5)
+rotation = -0.683545
+scale = Vector2(0.48, 0.7)
+texture = ExtResource("1_2dcpd")
+offset = Vector2(-3.33786e-06, 29.3062)
+region_enabled = true
+region_rect = Rect2(395, 315, 44, 69)
+
+[node name="Left_Jet" type="Sprite2D" parent="CollisionPolygon2D/Sprite2D"]
+z_index = -1
+position = Vector2(-14.483, -5)
+rotation = 0.684169
+scale = Vector2(0.48, 0.7)
+texture = ExtResource("1_2dcpd")
+offset = Vector2(-3.33786e-06, 29.3062)
+region_enabled = true
+region_rect = Rect2(395, 315, 44, 69)
+
+[node name="Back_jet" type="Sprite2D" parent="CollisionPolygon2D/Sprite2D"]
+z_index = -1
+position = Vector2(5.96046e-08, -5.83333)
+scale = Vector2(0.6, 0.8)
+texture = ExtResource("1_2dcpd")
+offset = Vector2(-3.33786e-06, 29.3062)
+region_enabled = true
+region_rect = Rect2(459, 313, 44, 81)
+
+[node name="Front_Jets" type="Node2D" parent="CollisionPolygon2D/Sprite2D"]
+
+[node name="Front_Jet" type="Sprite2D" parent="CollisionPolygon2D/Sprite2D/Front_Jets"]
+z_index = -1
+position = Vector2(-2.738, -15.833)
+rotation = 2.79253
+scale = Vector2(0.4, 0.7)
+texture = ExtResource("1_2dcpd")
+offset = Vector2(-3.33786e-06, 29.3062)
+region_enabled = true
+region_rect = Rect2(395, 315, 44, 69)
+
+[node name="Front_Jet2" type="Sprite2D" parent="CollisionPolygon2D/Sprite2D/Front_Jets"]
+z_index = -1
+position = Vector2(0.997, -15.833)
+rotation = -2.79253
+scale = Vector2(0.4, 0.7)
+texture = ExtResource("1_2dcpd")
+offset = Vector2(-3.33786e-06, 29.3062)
+region_enabled = true
+region_rect = Rect2(395, 315, 44, 69)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -168,11 +247,12 @@ autoplay = "idle"
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
-amount = 20
+amount = 25
+lifetime = 0.5
 one_shot = true
 explosiveness = 0.85
-emission_shape = 3
-emission_rect_extents = Vector2(5, 10)
+randomness = 0.12
+lifetime_randomness = 0.07
 direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
@@ -180,12 +260,15 @@ initial_velocity_min = 200.0
 initial_velocity_max = 300.0
 angular_velocity_min = 89.92
 angular_velocity_max = 360.0
-damping_min = 85.0
+damping_min = 90.072
 damping_max = 100.0
 angle_min = 114.8
 angle_max = 260.9
-scale_amount_min = 8.0
-scale_amount_max = 17.0
-color_ramp = SubResource("Gradient_fqnbv")
+scale_amount_min = 5.0
+scale_amount_max = 15.0
+scale_amount_curve = SubResource("Curve_2ohr0")
+color_ramp = SubResource("Gradient_jhyqi")
+hue_variation_min = -0.15
+hue_variation_max = 0.24
 
 [connection signal="area_entered" from="CollisionPolygon2D/BulletDetector" to="." method="_on_bullet_detector_area_entered"]

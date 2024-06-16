@@ -5,5 +5,7 @@ signal respawn_player
 signal shake_camera
 signal blast
 
+var player
+
 func timer(secs):
 	return get_tree().create_timer(secs).timeout

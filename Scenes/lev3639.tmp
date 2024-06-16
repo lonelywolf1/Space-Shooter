@@ -17,8 +17,6 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 [node name="Level" type="Node2D"]
 position = Vector2(-577, -323)
 script = ExtResource("1_hwlgs")
-metadata/_edit_horizontal_guides_ = [-232.0, -233.0]
-metadata/_edit_vertical_guides_ = [96.0, -154.0]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(577.1, 323.12)
@@ -64,10 +62,10 @@ scale_amount_curve = SubResource("Curve_vl3jw")
 color_ramp = SubResource("Gradient_m3pcl")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 453.0
-offset_top = 47.0
-offset_right = 701.0
-offset_bottom = 127.0
+offset_left = 379.0
+offset_top = 93.0
+offset_right = 795.0
+offset_bottom = 1068.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -78,18 +76,57 @@ custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
 [node name="Enemy" parent="VBoxContainer/HBoxContainer/BoxContainer" instance=ExtResource("3_56v4v")]
-position = Vector2(40, 32)
+position = Vector2(30, 23)
 
 [node name="BoxContainer2" type="BoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
 [node name="Enemy" parent="VBoxContainer/HBoxContainer/BoxContainer2" instance=ExtResource("3_56v4v")]
-position = Vector2(40, 32)
+position = Vector2(30, 23)
 
 [node name="BoxContainer3" type="BoxContainer" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
 [node name="Enemy" parent="VBoxContainer/HBoxContainer/BoxContainer3" instance=ExtResource("3_56v4v")]
-position = Vector2(40, 32)
+position = Vector2(30, 23)
+
+[node name="BoxContainer4" type="BoxContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer/BoxContainer4" instance=ExtResource("3_56v4v")]
+position = Vector2(30, 23)
+
+[node name="BoxContainer5" type="BoxContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer/BoxContainer5" instance=ExtResource("3_56v4v")]
+position = Vector2(30, 23)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BoxContainer3" type="BoxContainer" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer2/BoxContainer3" instance=ExtResource("3_56v4v")]
+position = Vector2(30, 23)
+
+[node name="BoxContainer4" type="BoxContainer" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer2/BoxContainer4" instance=ExtResource("3_56v4v")]
+position = Vector2(30, 23)
+
+[node name="BoxContainer5" type="BoxContainer" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer2/BoxContainer5" instance=ExtResource("3_56v4v")]
+position = Vector2(30, 23)

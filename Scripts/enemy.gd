@@ -15,6 +15,11 @@ func _ready():
 	start_timer()
 	$IdleFloating.speed_scale = randf_range(0.3,0.8)
 	
+func _process(delta):
+	if Events.player != null:
+		var angle_to_zero = position.angle_to_point(Events.player.position)
+		rotation = lerp_angle(rotation, angle_to_zero - deg_to_rad(90), 0.02)
+	
 func enemy_shotted(amount : int):
 	if enemy_dead:
 		return
@@ -48,8 +53,8 @@ func _on_shot_signal_area_entered(area):
 func _on_timer_timeout():
 	if enemy_dead:
 		return
-		
-	Events.shoot.emit(enemy_bullet, position)
+	
+	Events.shoot.emit(enemy_bullet, global_position, rotation)
 	animation_shoot.play("shoot")
 	start_timer()
   
