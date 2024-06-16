@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbqbbnhw40ruv"]
+
+[ext_resource type="PackedScene" uid="uid://d330rdbdevcdw" path="res://Scenes/level_template.tscn" id="1_gsolk"]
+[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/enemy.tscn" id="2_8d8el"]
+
+[node name="Level" instance=ExtResource("1_gsolk")]
+
+[node name="BoxContainer4" type="BoxContainer" parent="VBoxContainer/HBoxContainer3" index="1"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer3/BoxContainer4" index="0" instance=ExtResource("2_8d8el")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer5" type="BoxContainer" parent="VBoxContainer/HBoxContainer3" index="2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer3/BoxContainer5" index="0" instance=ExtResource("2_8d8el")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer6" type="BoxContainer" parent="VBoxContainer/HBoxContainer3" index="3"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer3/BoxContainer6" index="0" instance=ExtResource("2_8d8el")]
+position = Vector2(37, 33)
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer" index="1"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BoxContainer4" type="BoxContainer" parent="VBoxContainer/HBoxContainer4" index="0"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer4/BoxContainer4" index="0" instance=ExtResource("2_8d8el")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer5" type="BoxContainer" parent="VBoxContainer/HBoxContainer4" index="1"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer4/BoxContainer5" index="0" instance=ExtResource("2_8d8el")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer6" type="BoxContainer" parent="VBoxContainer/HBoxContainer4" index="2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer4/BoxContainer6" index="0" instance=ExtResource("2_8d8el")]
+position = Vector2(37, 33)

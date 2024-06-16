@@ -4,7 +4,7 @@ var enemy_hp = 5
 var enemy_bullet : PackedScene = preload("res://Scenes/enemy_shot.tscn")
 var enemy_dead = false
 
-@onready var shotDetector = $ShotSignal
+@onready var shotDetector = $CollisionPolygon2D/ShotSignal
 @onready var timer = $Timer
 @onready var animation_shoot = $AnimationShoot
 @onready var sprite_2d = $CollisionPolygon2D/Sprite2D
@@ -14,10 +14,11 @@ var enemy_dead = false
 func _ready():
 	start_timer()
 	$IdleFloating.speed_scale = randf_range(0.3,0.8)
+	Events.enemes_left += 1
 	
 func _process(delta):
 	if Events.player != null:
-		var angle_to_zero = position.angle_to_point(Events.player.position)
+		var angle_to_zero = global_position.angle_to_point(Events.player.position)
 		rotation = lerp_angle(rotation, angle_to_zero - deg_to_rad(90), 0.02)
 	
 func enemy_shotted(amount : int):
@@ -33,7 +34,10 @@ func enemy_shotted(amount : int):
 func die():
 	enemy_dead = true
 	cpu_particles_2d.emitting = true
-	collision_polygon_2d.disabled = true
+	Events.enemes_left -= 1
+	
+	if collision_polygon_2d != null:
+		collision_polygon_2d.queue_free()
 	sprite_2d.visible = false
 	await cpu_particles_2d.finished
 	queue_free()
@@ -45,8 +49,8 @@ func start_timer():
 
 func _on_shot_signal_area_entered(area):
 	const hp_amount = 1
-	Events.blast.emit(area.position)
 	area.done()
+	Events.blast.emit(area.position)
 	enemy_shotted(hp_amount)
 
 

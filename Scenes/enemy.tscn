@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://2cdgiu2ntvlw"]
+[gd_scene load_steps=10 format=3 uid="uid://b1ajdfvfpyteb"]
 
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="1_a1qkf"]
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_m25fl"]

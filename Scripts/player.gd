@@ -14,7 +14,7 @@ const player_speed = 50
 
 @export_category("Player Variables")
 @export var SHOOTING_SPEED = 0.3
-@export var TOTAL_HEALTH = 3
+#@export var TOTAL_HEALTH = 3
 
 @onready var animation_shoot = $Animation_shoot
 @onready var cpu_particles_2d = $CPUParticles2D

@@ -1,7 +1,8 @@
 extends Node2D
 
+@export var next_level:PackedScene
+
 @onready var player = $Player
-@onready var enemy = $Enemy
 @onready var camera = $Camera2D
 
 var player_spawn_pos
@@ -20,7 +21,8 @@ func _ready():
 	Events.connect("blast", create_blast)
 	
 func _process(delta):
-	pass
+	if Events.enemes_left == 0:
+		get_tree().change_scene_to_packed(next_level)
 	
 #Custom Functions
 func fire_bullet(bullet_scene, bullet_position, bullet_rotation=0.0, is_player=false):

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cewd7y33umw3c"]
+
+[ext_resource type="PackedScene" uid="uid://d330rdbdevcdw" path="res://Scenes/level_template.tscn" id="1_dtwrx"]
+[ext_resource type="PackedScene" uid="uid://cbqbbnhw40ruv" path="res://Scenes/level2.tscn" id="2_0hcyx"]
+[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/enemy.tscn" id="2_u40mn"]
+
+[node name="Level" instance=ExtResource("1_dtwrx")]
+next_level = ExtResource("2_0hcyx")
+
+[node name="BoxContainer4" type="BoxContainer" parent="VBoxContainer/HBoxContainer3" index="1"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer3/BoxContainer4" index="0" instance=ExtResource("2_u40mn")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer5" type="BoxContainer" parent="VBoxContainer/HBoxContainer3" index="2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="VBoxContainer/HBoxContainer3/BoxContainer5" index="0" instance=ExtResource("2_u40mn")]
+position = Vector2(37, 33)

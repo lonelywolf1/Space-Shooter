@@ -6,6 +6,7 @@ signal shake_camera
 signal blast
 
 var player
+var enemes_left= 0
 
 func timer(secs):
 	return get_tree().create_timer(secs).timeout
