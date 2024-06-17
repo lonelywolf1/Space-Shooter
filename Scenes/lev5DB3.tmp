@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://d330rdbdevcdw"]
+
+[ext_resource type="Script" path="res://Scripts/level.gd" id="1_s6bhf"]
+[ext_resource type="PackedScene" uid="uid://cspt2552trc1o" path="res://Scenes/player.tscn" id="2_id0aq"]
+[ext_resource type="PackedScene" uid="uid://vhidaur57c50" path="res://Scenes/enemies1.tscn" id="3_3mhgs"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_iwequ"]
+
+[sub_resource type="Curve" id="Curve_vl3jw"]
+_data = [Vector2(0.0224719, 0.021978), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 5.14749, 0.0, 0, 0, Vector2(0.685393, 0.67033), 10.7582, 10.7582, 0, 0, Vector2(0.994382, 0.032967), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_m3pcl"]
+offsets = PackedFloat32Array(0, 0.186667, 0.813333, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="Level" type="Node2D"]
+position = Vector2(-1, 0)
+script = ExtResource("1_s6bhf")
+metadata/_edit_horizontal_guides_ = [-232.0, -233.0]
+metadata/_edit_vertical_guides_ = [96.0, -154.0]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(577.1, 323.12)
+
+[node name="Player" parent="." instance=ExtResource("2_id0aq")]
+position = Vector2(575, 522)
+
+[node name="World Boundaries" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(583, 0)
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(583, 649)
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(1153, 332)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="World Boundaries"]
+position = Vector2(0, 332)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_iwequ")
+
+[node name="Background" type="CPUParticles2D" parent="."]
+position = Vector2(569, 266)
+amount = 350
+lifetime = 8.0
+preprocess = 10.0
+speed_scale = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(650, 350)
+direction = Vector2(0, 1)
+gravity = Vector2(0, 10)
+initial_velocity_max = 10.0
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_vl3jw")
+color_ramp = SubResource("Gradient_m3pcl")
+
+[node name="Enemies" parent="." instance=ExtResource("3_3mhgs")]
+offset_left = 390.0
+offset_top = 36.0
+offset_right = 781.0
+offset_bottom = 190.0

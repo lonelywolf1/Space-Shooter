@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://kf55pcdqbcx5"]
+
+[ext_resource type="Script" path="res://Scripts/asteroid.gd" id="1_iekpp"]
+[ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="1_ixtaj"]
+
+[sub_resource type="Curve" id="Curve_v7olg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.582031, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_qhf4s"]
+offsets = PackedFloat32Array(0, 0.140351, 0.587719, 0.789474, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 0.180392, 0, 0.92549, 0.909262, 0.706577, 0, 0.882353, 0.936291, 0.79398, 0.297872, 0.619524, 1, 1, 1, 0)
+
+[node name="Asteroid" type="Area2D"]
+z_index = -1
+script = ExtResource("1_iekpp")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -24, 16, -16, 24, 0, 15, 17, 0, 24, -16, 16, -24, 0, -17, -15)
+
+[node name="FloatParticles" type="CPUParticles2D" parent="."]
+position = Vector2(-1.42109e-14, 17)
+scale = Vector2(0.833333, 0.833333)
+amount = 1000
+lifetime = 0.2
+explosiveness = 0.08
+randomness = 0.16
+lifetime_randomness = 0.03
+emission_shape = 3
+emission_rect_extents = Vector2(10, 1)
+direction = Vector2(0, 1)
+spread = 27.39
+gravity = Vector2(0, -400)
+initial_velocity_min = 40.0
+initial_velocity_max = 486.11
+orbit_velocity_min = 0.05
+orbit_velocity_max = 0.15
+damping_min = 325.0
+damping_max = 450.0
+angle_min = 281.8
+angle_max = 688.7
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_v7olg")
+color_ramp = SubResource("Gradient_qhf4s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ixtaj")
+region_enabled = true
+region_rect = Rect2(3, 259, 58, 58)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1.90735e-06, 7.15256e-07)
+scale = Vector2(2.4, 2.3)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]

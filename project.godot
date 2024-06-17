@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Space Shooter"
-run/main_scene="res://Scenes/level_template.tscn"
+run/main_scene="res://Scenes/World/level_template.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Events="*res://Scenes/events.tscn"
+Events="*res://Scenes/World/events.tscn"
+SoundPlayer="*res://Scenes/World/sound_player.tscn"
 
 [rendering]
 

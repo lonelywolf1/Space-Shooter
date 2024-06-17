@@ -1,25 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvbcr72gy44tg"]
+[gd_scene load_steps=5 format=3 uid="uid://bx410p3w5kr4s"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_shot.gd" id="1_iaddh"]
-[ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="2_pa8wp"]
+[ext_resource type="Script" path="res://Scripts/Player/player_shot.gd" id="1_tc5tb"]
+[ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="2_7evt4"]
 
-[sub_resource type="Curve" id="Curve_eugwt"]
+[sub_resource type="Curve" id="Curve_6v2fj"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Gradient" id="Gradient_qnuws"]
+[sub_resource type="Gradient" id="Gradient_gtg3p"]
 offsets = PackedFloat32Array(0, 0.785088, 1)
-colors = PackedColorArray(1, 0.376471, 0.0784314, 0.929412, 0.996078, 0.0392157, 0.109804, 0.929412, 1, 1, 1, 0)
+colors = PackedColorArray(0.239216, 0.827451, 0.870588, 0.929412, 0.136228, 0.520396, 1, 0.929412, 1, 1, 1, 0)
 
-[node name="Enemy Shot" type="Area2D"]
-rotation = 3.14159
-collision_layer = 4
+[node name="Player Shot" type="Area2D"]
+collision_layer = 2
 collision_mask = 0
-script = ExtResource("1_iaddh")
+script = ExtResource("1_tc5tb")
 shot_speed = 16
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_pa8wp")
+texture = ExtResource("2_7evt4")
 region_enabled = true
 region_rect = Rect2(79, 9, 35, 47)
 
@@ -31,7 +30,7 @@ position = Vector2(0, -0.5)
 scale = Vector2(1, 1.55)
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(-3.80278e-05, 15)
+position = Vector2(0, 17)
 amount = 25
 lifetime = 0.7
 explosiveness = 0.5
@@ -49,7 +48,7 @@ damping_min = 88.437
 damping_max = 100.0
 angle_max = 240.0
 scale_amount_max = 5.0
-scale_amount_curve = SubResource("Curve_eugwt")
-color_ramp = SubResource("Gradient_qnuws")
+scale_amount_curve = SubResource("Curve_6v2fj")
+color_ramp = SubResource("Gradient_gtg3p")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

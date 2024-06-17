@@ -7,10 +7,14 @@ extends Node2D
 
 var player_spawn_pos
 
-var blast_scene := preload("res://Scenes/blast.tscn")
-var player_instance := preload("res://Scenes/player.tscn")
-var loaded = false
+var blast_scene := preload("res://Scenes/World/blast.tscn")
+var player_instance := preload("res://Scenes/Player/player.tscn")
+var boss_scene := preload("res://Scenes/Enemies/boss.tscn")
 
+var loaded := false
+var is_boss_dead := false
+
+const boss_position := Vector2(584, 123)
 
 #Game Functions
 func _ready():
@@ -22,6 +26,16 @@ func _ready():
 	Events.connect("blast", create_blast)
 	
 func _process(delta):
+	if enemies.next_level == null and Events.enemies_left == 0:
+		if is_boss_dead:
+			await Events.timer(2)
+			get_tree().change_scene_to_packed(load("res://Scenes/game_over.tscn"))
+		else: 
+			var new_boss = boss_scene.instantiate()
+			new_boss.position = boss_position
+			add_child(new_boss)
+			print("THE BOSS!!!")
+			
 	if Events.enemies_left == 0:
 		var new_enemies = enemies.next_level.instantiate()
 		new_enemies.position = enemies.position

@@ -1,0 +1,153 @@
+[gd_scene load_steps=14 format=3 uid="uid://daaa0ebw3q303"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/boss.gd" id="1_6m68v"]
+[ext_resource type="AudioStream" uid="uid://cvg06ucldwgbw" path="res://Assets/Audio/lowFrequency_explosion_000.ogg" id="2_vjdaf"]
+[ext_resource type="AudioStream" uid="uid://bg8mxsjf05gxp" path="res://Assets/Audio/lowFrequency_explosion_001.ogg" id="3_j2ldt"]
+[ext_resource type="Texture2D" uid="uid://belv8yscsum8t" path="res://Assets/Tilesheet/simpleSpace_tilesheet@2.png" id="4_v8kbs"]
+[ext_resource type="AudioStream" uid="uid://chio2v53n4n4a" path="res://Assets/Audio/laserSmall_000.ogg" id="5_3ssfg"]
+[ext_resource type="AudioStream" uid="uid://d1j8rxhtjcefq" path="res://Assets/Audio/explosionCrunch_000.ogg" id="6_m4kwf"]
+[ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="7_sp3jl"]
+
+[sub_resource type="Animation" id="Animation_aue4q"]
+resource_name = "idle"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-17.345, -11.725), Vector2(19.8, -9.46), Vector2(-19.625, 13.58), Vector2(37.895, 13.58), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionPolygon2D:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0785398, 0.0785398, -0.122173, 0.10472, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_p86wt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionPolygon2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4y6mm"]
+_data = {
+"RESET": SubResource("Animation_p86wt"),
+"idle": SubResource("Animation_aue4q")
+}
+
+[sub_resource type="Animation" id="Animation_vr0vw"]
+resource_name = "shoot"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_yy8i6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionPolygon2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6osb0"]
+_data = {
+"RESET": SubResource("Animation_yy8i6"),
+"shoot": SubResource("Animation_vr0vw")
+}
+
+[node name="Boss" type="CharacterBody2D"]
+script = ExtResource("1_6m68v")
+shoot_sounds = Array[AudioStream]([ExtResource("2_vjdaf"), ExtResource("3_j2ldt")])
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -94, 31, -22, 67, -37, 67, -100, 75, -106, 85, -104, 125, -34, 124, -28, 82, 7, 74, 8, 67, 2, 67, -19, 36, -7, 38, -2, 39, 21, 61, 39, 70, 24, 81, 22, 125, 59, 125, 67, 40, 104, 33, 103, 28, 93, 53, 54, 31, 37, 0, 64, -32, 38, -53, 55, -29, 93, -30, 101, -36, 104, -123, 70, -125, 60, -81, 25, -71, 24, -63, 38, -39, 20, -38, -4, -37, -7, -67, -20, -67, 3, -73, 8, -82, 7, -125, -29, -125, -36, -83, -103, -73, -105, -67, -101, -67, -37, -30, -23)
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionPolygon2D"]
+scale = Vector2(2.4, 2)
+texture = ExtResource("4_v8kbs")
+region_enabled = true
+region_rect = Rect2(255, 253, 130, 135)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.5
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_3ssfg")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Hit1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_m4kwf")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Hit2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_sp3jl")
+volume_db = 8.0
+pitch_scale = 0.6
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4y6mm")
+}
+autoplay = "idle"
+
+[node name="Shooting" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6osb0")
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

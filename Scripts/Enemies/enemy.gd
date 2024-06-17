@@ -1,8 +1,10 @@
 extends CharacterBody2D
 
-var enemy_hp = 5
-var enemy_bullet : PackedScene = preload("res://Scenes/enemy_shot.tscn")
+var enemy_hp = randi_range(2,5)
+var enemy_bullet : PackedScene = preload("res://Scenes/Enemies/enemy_shot.tscn")
 var enemy_dead = false
+
+var index := 0
 
 @onready var shotDetector = $CollisionPolygon2D/ShotSignal
 @onready var timer = $Timer
@@ -10,6 +12,8 @@ var enemy_dead = false
 @onready var sprite_2d = $CollisionPolygon2D/Sprite2D
 @onready var collision_polygon_2d = $CollisionPolygon2D
 @onready var cpu_particles_2d = $CPUParticles2D
+
+@export var shoot_sounds:Array[AudioStream]
 
 func _ready():
 	start_timer()
@@ -22,6 +26,7 @@ func _ready():
 		position.x = lerp(position.x, destination.x, 0.05)
 		position.y = lerp(position.y, destination.y, 0.05)
 		await Events.timer(0.01)
+		
 		
 func _process(delta):
 	if Events.player != null:
@@ -37,10 +42,15 @@ func enemy_shotted(amount : int):
 		die()
 	
 	Events.shake_camera.emit(randi_range(4, 6), 3.0, 1.5) #emitting signal to shake the camera on Level script
+	$Hit1.pitch_scale = randf_range(0.8,1.3)
+	$Hit2.pitch_scale = randf_range(0.8,1.3)
+	$Hit1.play()
+	$Hit2.play()
 
 func die():
 	enemy_dead = true
 	cpu_particles_2d.emitting = true
+	SoundPlayer.crash.play()
 	Events.enemies_left -= 1
 	
 	if collision_polygon_2d != null:
@@ -67,5 +77,14 @@ func _on_timer_timeout():
 	
 	Events.shoot.emit(enemy_bullet, global_position, rotation)
 	animation_shoot.play("shoot")
+	
+	if index > shoot_sounds.size()-1:
+		index = 0
+		shoot_sounds.shuffle()
+		
+	$Shoot.stream = shoot_sounds[index]
+	index += 1
+	$Shoot.pitch_scale = randf_range(0.9,1.2)
+	$Shoot.play()
 	start_timer()
   

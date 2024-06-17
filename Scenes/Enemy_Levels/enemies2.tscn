@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7ax7om7sogmc"]
 
-[ext_resource type="PackedScene" uid="uid://behbqgwl30swv" path="res://Scenes/enemies_template.tscn" id="1_wqjr2"]
-[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/enemy.tscn" id="2_2obmm"]
-[ext_resource type="PackedScene" uid="uid://dt87c55wvlypi" path="res://Scenes/enemies3.tscn" id="2_q3o2x"]
+[ext_resource type="PackedScene" uid="uid://behbqgwl30swv" path="res://Scenes/Enemy_Levels/enemies_template.tscn" id="1_wqjr2"]
+[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/Enemies/enemy.tscn" id="2_2obmm"]
+[ext_resource type="PackedScene" uid="uid://dt87c55wvlypi" path="res://Scenes/Enemy_Levels/enemies3.tscn" id="2_q3o2x"]
 
 [node name="Enemies" instance=ExtResource("1_wqjr2")]
 offset_left = -212.0

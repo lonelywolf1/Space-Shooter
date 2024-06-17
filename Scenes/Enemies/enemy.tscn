@@ -1,7 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://b1ajdfvfpyteb"]
+[gd_scene load_steps=17 format=3 uid="uid://b1ajdfvfpyteb"]
 
-[ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="1_a1qkf"]
-[ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_m25fl"]
+[ext_resource type="Script" path="res://Scripts/Enemies/enemy.gd" id="1_4g5oh"]
+[ext_resource type="AudioStream" uid="uid://chio2v53n4n4a" path="res://Assets/Audio/laserSmall_000.ogg" id="2_jh8y6"]
+[ext_resource type="AudioStream" uid="uid://ffmo0pnfeef5" path="res://Assets/Audio/laserSmall_001.ogg" id="3_7cxlr"]
+[ext_resource type="AudioStream" uid="uid://bm846taqelydv" path="res://Assets/Audio/laserSmall_002.ogg" id="4_tyucb"]
+[ext_resource type="AudioStream" uid="uid://tv5m2s8y4pbo" path="res://Assets/Audio/laserSmall_003.ogg" id="5_r7ljp"]
+[ext_resource type="AudioStream" uid="uid://dutfdvf647c53" path="res://Assets/Audio/laserSmall_004.ogg" id="6_lvbwj"]
+[ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="7_ktdbq"]
+[ext_resource type="AudioStream" uid="uid://d1j8rxhtjcefq" path="res://Assets/Audio/explosionCrunch_000.ogg" id="8_xwetb"]
+[ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="9_ll2u2"]
 
 [sub_resource type="Animation" id="Animation_f5jp5"]
 resource_name = "shoot"
@@ -96,7 +103,8 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.92549, 1, 1, 1, 0.815686, 1, 1,
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_mask = 2
-script = ExtResource("1_m25fl")
+script = ExtResource("1_4g5oh")
+shoot_sounds = Array[AudioStream]([ExtResource("2_jh8y6"), ExtResource("3_7cxlr"), ExtResource("4_tyucb"), ExtResource("5_r7ljp"), ExtResource("6_lvbwj")])
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(14, -22, 27, -22, 27, 23, 14, 23, 14, 6, 11, 6, 11, 14, 5, 14, 5, 21, -4, 21, -4, 14, -10, 14, -10, 6, -13, 6, -13, 23, -26, 23, -26, -22, -13, -22, -13, 2, -10, 2, -10, -6, 10, -6, 10, 2, 14, 2)
@@ -111,7 +119,7 @@ polygon = PackedVector2Array(14, -22, 27, -22, 27, 23, 14, 23, 14, 6, 11, 6, 11,
 [node name="Sprite2D" type="Sprite2D" parent="CollisionPolygon2D"]
 position = Vector2(-27, -4)
 scale = Vector2(1.2, 1.2)
-texture = ExtResource("1_a1qkf")
+texture = ExtResource("7_ktdbq")
 offset = Vector2(22.5, 6.33333)
 region_enabled = true
 region_rect = Rect2(256, 265, 63, 54)
@@ -153,6 +161,22 @@ scale_amount_min = 5.0
 scale_amount_max = 15.0
 scale_amount_curve = SubResource("Curve_qjbwq")
 color_ramp = SubResource("Gradient_f6sfp")
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_jh8y6")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Hit1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_xwetb")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Hit2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_ll2u2")
+volume_db = 8.0
+pitch_scale = 0.6
+bus = &"SFX"
 
 [connection signal="area_entered" from="CollisionPolygon2D/ShotSignal" to="." method="_on_shot_signal_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -3,18 +3,19 @@ extends CharacterBody2D
 
 var keyboard_input_x
 var keyboard_input_y
-var bullet_shot_scene : PackedScene = preload("res://Scenes/player_shot.tscn")
+var bullet_shot_scene : PackedScene = preload("res://Scenes/Player/player_shot.tscn")
 
 var player_hp = 3
 var is_invincible : bool = false
 var player_dead : bool = false
 var player_shooting : bool = false
+var index := 0 
 
 const player_speed = 50
 
 @export_category("Player Variables")
-@export var SHOOTING_SPEED = 0.3
-#@export var TOTAL_HEALTH = 3
+@export var SHOOTING_SPEED = 0.2
+@export var shoot_sounds:Array[AudioStream]
 
 @onready var animation_shoot = $Animation_shoot
 @onready var cpu_particles_2d = $CPUParticles2D
@@ -41,6 +42,7 @@ func _ready():
 	back_jet.scale.y = 0
 	front_jets.scale.y = 0
 
+
 func _process(delta):
 	keyboard_input_x = Input.get_axis("ui_left", "ui_right")
 	keyboard_input_y = Input.get_axis("ui_up", "ui_down")
@@ -51,20 +53,42 @@ func _process(delta):
 	apply_friction_onplayer()
 	animate_player_jets()
 	move_and_slide()
+	engine_sound()
 	
-	if Input.is_action_pressed("ui_accept") and !player_dead and !player_shooting:
-		player_shooting = true
-		Events.shoot.emit(bullet_shot_scene, position, rotation, true)
-		animation_shoot.play("shoot")
-		await Events.timer(SHOOTING_SPEED)
-		player_shooting = false
+	if Input.is_action_pressed("ui_accept") and !player_dead and !player_shooting: #checking player isn't dead and not shooting
+		shoot()
 
 func _on_bullet_detector_area_entered(area):
-	Events.blast.emit(area.position)
-	area.done()
-	if not is_invincible:
-		player_hit(1)
+	var hp_decrease = 1
+	if area.is_in_group("asteroid"):
+		area.get_parent().done()
+		hp_decrease = player_hp
+		Events.blast.emit(area.get_parent().position)
+	else:
+		Events.blast.emit(area.position)
+		area.done()
 		
+	if not is_invincible:
+			player_hit(hp_decrease)
+		
+func engine_sound():
+	$Engine.volume_db = velocity.length()/50-25
+
+func shoot():
+	player_shooting = true #need to check for automatic shoot
+	Events.shoot.emit(bullet_shot_scene, position, rotation, true)
+	animation_shoot.play("shoot")
+	if index > shoot_sounds.size()-1:
+		index = 0
+		shoot_sounds.shuffle()
+	
+	$Shoot.stream = shoot_sounds[index]
+	index += 1
+	$Shoot.pitch_scale = randf_range(0.9,1.2)
+	$Shoot.play()
+	await Events.timer(SHOOTING_SPEED)
+	player_shooting = false
+	
 func apply_friction_onplayer():
 	velocity *= 0.96
 
@@ -74,10 +98,15 @@ func player_hit(amount):
 		
 	player_hp -= amount
 	if player_hp <= 0:
+		SoundPlayer.crash.play()
 		kill_player()
 		
 	give_invincibility()
 	Events.shake_camera.emit(randi_range(5, 7), 5.0, 3.0)
+	$Hit1.pitch_scale = randf_range(0.8,1.3)
+	$Hit2.pitch_scale = randf_range(0.8,1.3)
+	$Hit1.play()
+	$Hit2.play()
 		
 func give_invincibility():
 	is_invincible = true
