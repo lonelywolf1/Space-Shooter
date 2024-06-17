@@ -1,9 +1,10 @@
 extends CharacterBody2D
 
 var enemy_hp = randi_range(2,5)
-var enemy_bullet : PackedScene = preload("res://Scenes/Enemies/enemy_shot.tscn")
 var enemy_dead = false
 
+var enemy_bullet : PackedScene = preload("res://Scenes/Enemies/enemy_shot.tscn")
+var functions = Functions.new()
 var index := 0
 
 @onready var shotDetector = $CollisionPolygon2D/ShotSignal
@@ -77,14 +78,7 @@ func _on_timer_timeout():
 	
 	Events.shoot.emit(enemy_bullet, global_position, rotation)
 	animation_shoot.play("shoot")
+	functions.playSounds(index, $Shoot, shoot_sounds)
 	
-	if index > shoot_sounds.size()-1:
-		index = 0
-		shoot_sounds.shuffle()
-		
-	$Shoot.stream = shoot_sounds[index]
-	index += 1
-	$Shoot.pitch_scale = randf_range(0.9,1.2)
-	$Shoot.play()
 	start_timer()
   

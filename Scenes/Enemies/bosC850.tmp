@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://daaa0ebw3q303"]
+[gd_scene load_steps=14 format=3 uid="uid://daaa0ebw3q303"]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/boss.gd" id="1_6m68v"]
 [ext_resource type="AudioStream" uid="uid://cvg06ucldwgbw" path="res://Assets/Audio/lowFrequency_explosion_000.ogg" id="2_vjdaf"]
 [ext_resource type="AudioStream" uid="uid://bg8mxsjf05gxp" path="res://Assets/Audio/lowFrequency_explosion_001.ogg" id="3_j2ldt"]
 [ext_resource type="Texture2D" uid="uid://belv8yscsum8t" path="res://Assets/Tilesheet/simpleSpace_tilesheet@2.png" id="4_v8kbs"]
+[ext_resource type="AudioStream" uid="uid://chio2v53n4n4a" path="res://Assets/Audio/laserSmall_000.ogg" id="5_3ssfg"]
 [ext_resource type="AudioStream" uid="uid://d1j8rxhtjcefq" path="res://Assets/Audio/explosionCrunch_000.ogg" id="6_m4kwf"]
 [ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="7_sp3jl"]
 
@@ -106,22 +107,12 @@ _data = {
 "shoot": SubResource("Animation_vr0vw")
 }
 
-[sub_resource type="Curve" id="Curve_evyyb"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.582031, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="Gradient" id="Gradient_tg31q"]
-offsets = PackedFloat32Array(0, 0.131579, 0.723684, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.92549, 1, 1, 1, 0.815686, 1, 1, 1, 0)
-
 [node name="Boss" type="CharacterBody2D"]
-collision_layer = 8
-collision_mask = 0
 script = ExtResource("1_6m68v")
 shoot_sounds = Array[AudioStream]([ExtResource("2_vjdaf"), ExtResource("3_j2ldt")])
 
-[node name="ShotSignal" type="Area2D" parent="." groups=["boss"]]
-collision_layer = 8
+[node name="ShotSignal" type="Area2D" parent="." groups=["Asteroid"]]
+collision_layer = 0
 collision_mask = 10
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShotSignal"]
@@ -137,8 +128,8 @@ region_rect = Rect2(255, 253, 130, 135)
 wait_time = 2.5
 
 [node name="Shoot" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_vjdaf")
-volume_db = 8.0
+stream = ExtResource("5_3ssfg")
+volume_db = -5.0
 bus = &"SFX"
 
 [node name="Hit1" type="AudioStreamPlayer2D" parent="."]
@@ -162,30 +153,6 @@ autoplay = "idle"
 libraries = {
 "": SubResource("AnimationLibrary_6osb0")
 }
-
-[node name="Explosion" type="CPUParticles2D" parent="."]
-emitting = false
-amount = 25
-lifetime = 0.5
-one_shot = true
-explosiveness = 0.85
-randomness = 0.12
-lifetime_randomness = 0.07
-direction = Vector2(0, 0)
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 200.0
-initial_velocity_max = 300.0
-angular_velocity_min = 89.92
-angular_velocity_max = 360.0
-damping_min = 90.072
-damping_max = 100.0
-angle_min = 114.8
-angle_max = 260.9
-scale_amount_min = 5.0
-scale_amount_max = 15.0
-scale_amount_curve = SubResource("Curve_evyyb")
-color_ramp = SubResource("Gradient_tg31q")
 
 [connection signal="area_entered" from="ShotSignal" to="." method="_on_shot_signal_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

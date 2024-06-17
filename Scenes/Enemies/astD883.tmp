@@ -1,12 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://kf55pcdqbcx5"]
+[gd_scene load_steps=5 format=3 uid="uid://kf55pcdqbcx5"]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/asteroid.gd" id="1_5f3du"]
-[ext_resource type="AudioStream" uid="uid://dj8lpnem7ead7" path="res://Assets/Audio/impactMetal_000.ogg" id="2_8ar30"]
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="2_t8tsa"]
-[ext_resource type="AudioStream" uid="uid://cptmjww6mhy8q" path="res://Assets/Audio/impactMetal_001.ogg" id="3_1welf"]
-[ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="4_6uj5q"]
-[ext_resource type="AudioStream" uid="uid://cwhqvqvpcsdqj" path="res://Assets/Audio/impactMetal_003.ogg" id="5_clmid"]
-[ext_resource type="AudioStream" uid="uid://d347ov1hfa5uv" path="res://Assets/Audio/impactMetal_004.ogg" id="6_kcdi4"]
 
 [sub_resource type="Curve" id="Curve_v7olg"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.582031, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -19,17 +14,16 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 0.180392, 0, 0.92549, 0.909262, 0.70657
 [node name="Asteroid" type="CharacterBody2D" groups=["asteroid"]]
 z_index = -1
 position = Vector2(552, 305)
-collision_layer = 0
+collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_5f3du")
-expolode_sounds = Array[AudioStream]([ExtResource("2_8ar30"), ExtResource("3_1welf"), ExtResource("4_6uj5q"), ExtResource("5_clmid"), ExtResource("6_kcdi4")])
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(0, -24, 16, -16, 24, 0, 15, 17, 0, 24, -16, 16, -24, 0, -17, -15)
 
 [node name="ShotSignal" type="Area2D" parent="." groups=["asteroid"]]
 collision_layer = 4
-collision_mask = 4
+collision_mask = 0
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="ShotSignal"]
 polygon = PackedVector2Array(0, -24, 16, -16, 24, 0, 15, 17, 0, 24, -16, 16, -24, 0, -17, -15)
@@ -67,10 +61,6 @@ region_rect = Rect2(3, 259, 58, 58)
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(1.90735e-06, 7.15256e-07)
 scale = Vector2(2.4, 2.3)
-
-[node name="ShotExpolsion" type="AudioStreamPlayer2D" parent="."]
-volume_db = 5.0
-bus = &"SFX"
 
 [connection signal="area_entered" from="ShotSignal" to="." method="_on_shot_signal_area_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

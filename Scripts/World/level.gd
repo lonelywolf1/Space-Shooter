@@ -12,7 +12,6 @@ var player_instance := preload("res://Scenes/Player/player.tscn")
 var boss_scene := preload("res://Scenes/Enemies/boss.tscn")
 
 var loaded := false
-var is_boss_dead := false
 
 const boss_position := Vector2(584, 123)
 
@@ -24,13 +23,13 @@ func _ready():
 	Events.connect("respawn_player", respawn_player)
 	Events.connect("shake_camera", camera_shake)
 	Events.connect("blast", create_blast)
+	Events.connect("end_game", func():
+		await Events.timer(1)
+		get_tree().change_scene_to_packed(load("res://Scenes/World/game_over.tscn"))
+	)
 	
 func _process(delta):
 	if enemies.next_level == null and Events.enemies_left == 0:
-		if is_boss_dead:
-			await Events.timer(2)
-			get_tree().change_scene_to_packed(load("res://Scenes/game_over.tscn"))
-		else: 
 			var new_boss = boss_scene.instantiate()
 			new_boss.position = boss_position
 			add_child(new_boss)

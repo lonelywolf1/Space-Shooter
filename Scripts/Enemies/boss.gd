@@ -4,7 +4,7 @@ var asteroid_scene = preload("res://Scenes/Enemies/asteroid.tscn")
 @onready var timer = $Timer
 
 var dead := false
-var health := 10
+var health := 30
 
 var index := 0
 @export var shoot_sounds : Array[AudioStream]
@@ -12,6 +12,7 @@ var index := 0
 func _ready():
 	start_timer()
 	Events.enemies_left = 1
+	Events.connect("hurt_boss", hurt_boss)
 	var destination = position
 	position.x = randi_range(-400, 400)
 	position.y = randi_range(-300, -550)
@@ -54,8 +55,7 @@ func boss_shotted(amount : int):
 		
 	health -= amount
 	if health <= 0:
-		#die()
-		print("boss dead")
+		die()
 	
 	Events.shake_camera.emit(randi_range(6, 8), 3.0, 1.5) #emitting signal to shake the camera on Level script
 	$Hit1.pitch_scale = randf_range(0.8,1.3)
@@ -63,7 +63,25 @@ func boss_shotted(amount : int):
 	$Hit1.play()
 	$Hit2.play()
 
+func hurt_boss():
+	var hp = randi_range(2, health)
+	boss_shotted(hp)
+	
+func die():
+	if dead:
+		return
+		
+	dead = true
+	Events.end_game.emit()
+	$ShotSignal.monitoring = false
+	$ShotSignal.monitorable = false
+	$ShotSignal/CollisionPolygon2D.disabled = true
+	$ShotSignal/CollisionPolygon2D/Sprite2D.visible = false
+	$Explosion.emitting = true
+	await $Explosion.finished
+	queue_free()
 
 func _on_shot_signal_area_entered(area):
-	const hp_decrease = 1
-	area.done()
+	var hp_decrease = 1
+	Events.blast.emit(area.position)
+	boss_shotted(hp_decrease)

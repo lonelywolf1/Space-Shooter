@@ -11,7 +11,7 @@ point_count = 2
 offsets = PackedFloat32Array(0, 0.785088, 1)
 colors = PackedColorArray(1, 0.376471, 0.0784314, 0.929412, 0.996078, 0.0392157, 0.109804, 0.929412, 1, 1, 1, 0)
 
-[node name="Enemy Shot" type="Area2D"]
+[node name="Enemy Shot" type="Area2D" groups=["EnemyShot"]]
 rotation = 3.14159
 collision_layer = 4
 collision_mask = 0
