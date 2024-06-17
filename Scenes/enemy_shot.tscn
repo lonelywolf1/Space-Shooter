@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bvbcr72gy44tg"]
 
-[ext_resource type="Script" path="res://Scenes/enemy_shot.gd" id="1_wa16n"]
+[ext_resource type="Script" path="res://Scripts/enemy_shot.gd" id="1_iaddh"]
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="2_pa8wp"]
 
 [sub_resource type="Curve" id="Curve_eugwt"]
@@ -15,7 +15,7 @@ colors = PackedColorArray(1, 0.376471, 0.0784314, 0.929412, 0.996078, 0.0392157,
 rotation = 3.14159
 collision_layer = 4
 collision_mask = 0
-script = ExtResource("1_wa16n")
+script = ExtResource("1_iaddh")
 shot_speed = 16
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

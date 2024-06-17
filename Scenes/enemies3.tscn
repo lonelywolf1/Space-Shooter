@@ -1,0 +1,84 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt87c55wvlypi"]
+
+[ext_resource type="PackedScene" uid="uid://behbqgwl30swv" path="res://Scenes/enemies_template.tscn" id="1_eyn6e"]
+[ext_resource type="PackedScene" uid="uid://ll4wcbsp58id" path="res://Scenes/game_over.tscn" id="2_1wdnj"]
+[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/enemy.tscn" id="2_f62oa"]
+
+[node name="Enemies" instance=ExtResource("1_eyn6e")]
+offset_left = -210.0
+offset_right = 210.0
+offset_bottom = 233.0
+next_level = ExtResource("2_1wdnj")
+
+[node name="BoxContainer7" type="BoxContainer" parent="HBoxContainer3" index="1"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer3/BoxContainer7" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer8" type="BoxContainer" parent="HBoxContainer3" index="2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer3/BoxContainer8" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="." index="1"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BoxContainer3" type="BoxContainer" parent="HBoxContainer4" index="0"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer4/BoxContainer3" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer4" type="BoxContainer" parent="HBoxContainer4" index="1"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer4/BoxContainer4" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer5" type="BoxContainer" parent="HBoxContainer4" index="2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer4/BoxContainer5" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer8" type="BoxContainer" parent="HBoxContainer4" index="3"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer4/BoxContainer8" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="." index="2"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BoxContainer3" type="BoxContainer" parent="HBoxContainer5" index="0"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer5/BoxContainer3" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer5" type="BoxContainer" parent="HBoxContainer5" index="1"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer5/BoxContainer5" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer8" type="BoxContainer" parent="HBoxContainer5" index="2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer5/BoxContainer8" index="0" instance=ExtResource("2_f62oa")]
+position = Vector2(37, 33)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://rew3p8gkwvo7"]
 
-[ext_resource type="Script" path="res://Scenes/blast.gd" id="1_s55mn"]
+[ext_resource type="Script" path="res://Scripts/blast.gd" id="1_b0dd0"]
 
 [sub_resource type="Gradient" id="Gradient_a5le7"]
 offsets = PackedFloat32Array(0, 0.263158, 0.723684, 1)
@@ -27,4 +27,4 @@ angle_min = 114.8
 angle_max = 260.9
 scale_amount_max = 4.0
 color_ramp = SubResource("Gradient_a5le7")
-script = ExtResource("1_s55mn")
+script = ExtResource("1_b0dd0")

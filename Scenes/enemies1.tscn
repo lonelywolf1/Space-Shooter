@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://vhidaur57c50"]
+
+[ext_resource type="PackedScene" uid="uid://behbqgwl30swv" path="res://Scenes/enemies_template.tscn" id="1_erpea"]
+[ext_resource type="PackedScene" uid="uid://c7ax7om7sogmc" path="res://Scenes/enemies2.tscn" id="2_mqka8"]
+[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/enemy.tscn" id="2_ph7xf"]
+
+[node name="Enemies" instance=ExtResource("1_erpea")]
+next_level = ExtResource("2_mqka8")
+
+[node name="BoxContainer4" type="BoxContainer" parent="HBoxContainer3" index="1"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer3/BoxContainer4" index="0" instance=ExtResource("2_ph7xf")]
+position = Vector2(37, 33)
+
+[node name="BoxContainer5" type="BoxContainer" parent="HBoxContainer3" index="2"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer3/BoxContainer5" index="0" instance=ExtResource("2_ph7xf")]
+position = Vector2(37, 33)

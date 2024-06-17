@@ -1,13 +1,14 @@
 extends Node2D
 
-@export var next_level:PackedScene
-
 @onready var player = $Player
 @onready var camera = $Camera2D
+@onready var enemies = $Enemies
+
 
 var player_spawn_pos
 
-var blast_scene : PackedScene = preload("res://Scenes/blast.tscn")
+var blast_scene := preload("res://Scenes/blast.tscn")
+var player_instance := preload("res://Scenes/player.tscn")
 var loaded = false
 
 
@@ -21,8 +22,13 @@ func _ready():
 	Events.connect("blast", create_blast)
 	
 func _process(delta):
-	if Events.enemes_left == 0:
-		get_tree().change_scene_to_packed(next_level)
+	if Events.enemies_left == 0:
+		var new_enemies = enemies.next_level.instantiate()
+		new_enemies.position = enemies.position
+		add_child(new_enemies)
+		enemies.queue_free()
+		enemies = new_enemies
+		
 	
 #Custom Functions
 func fire_bullet(bullet_scene, bullet_position, bullet_rotation=0.0, is_player=false):
@@ -39,7 +45,6 @@ func fire_bullet(bullet_scene, bullet_position, bullet_rotation=0.0, is_player=f
 	add_child(new_bullet)
 
 func respawn_player():
-	var player_instance = load("res://Scenes/player.tscn")
 	var new_player = player_instance.instantiate()
 	new_player.position = player_spawn_pos
 	await Events.timer(1)

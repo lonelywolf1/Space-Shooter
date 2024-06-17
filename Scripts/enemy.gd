@@ -14,8 +14,15 @@ var enemy_dead = false
 func _ready():
 	start_timer()
 	$IdleFloating.speed_scale = randf_range(0.3,0.8)
-	Events.enemes_left += 1
-	
+	Events.enemies_left += 1
+	var destination = position
+	position.x = randi_range(-400, 400)
+	position.y = randi_range(-300, -550)
+	while position.distance_to(destination) > 1:
+		position.x = lerp(position.x, destination.x, 0.05)
+		position.y = lerp(position.y, destination.y, 0.05)
+		await Events.timer(0.01)
+		
 func _process(delta):
 	if Events.player != null:
 		var angle_to_zero = global_position.angle_to_point(Events.player.position)
@@ -34,7 +41,7 @@ func enemy_shotted(amount : int):
 func die():
 	enemy_dead = true
 	cpu_particles_2d.emitting = true
-	Events.enemes_left -= 1
+	Events.enemies_left -= 1
 	
 	if collision_polygon_2d != null:
 		collision_polygon_2d.queue_free()
@@ -55,7 +62,7 @@ func _on_shot_signal_area_entered(area):
 
 
 func _on_timer_timeout():
-	if enemy_dead:
+	if enemy_dead or Events.player == null:
 		return
 	
 	Events.shoot.emit(enemy_bullet, global_position, rotation)

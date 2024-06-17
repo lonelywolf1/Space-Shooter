@@ -9,7 +9,7 @@ point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_gtg3p"]
 offsets = PackedFloat32Array(0, 0.785088, 1)
-colors = PackedColorArray(1, 0.376471, 0.0784314, 0.929412, 0.996078, 0.0392157, 0.109804, 0.929412, 1, 1, 1, 0)
+colors = PackedColorArray(0.239216, 0.827451, 0.870588, 0.929412, 0.136228, 0.520396, 1, 0.929412, 1, 1, 1, 0)
 
 [node name="Player Shot" type="Area2D"]
 collision_layer = 2

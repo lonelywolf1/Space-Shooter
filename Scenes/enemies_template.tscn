@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://behbqgwl30swv"]
+
+[ext_resource type="Script" path="res://Scripts/enemies.gd" id="1_owcvj"]
+[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/enemy.tscn" id="2_32xxy"]
+
+[node name="Enemies" type="VBoxContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -195.5
+offset_right = 195.5
+offset_bottom = 154.0
+grow_horizontal = 2
+scale = Vector2(0.993407, 0.997073)
+size_flags_horizontal = 0
+alignment = 1
+script = ExtResource("1_owcvj")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BoxContainer3" type="BoxContainer" parent="HBoxContainer3"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="Enemy" parent="HBoxContainer3/BoxContainer3" instance=ExtResource("2_32xxy")]
+position = Vector2(37, 33)

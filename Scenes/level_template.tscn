@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/level.gd" id="1_s6bhf"]
 [ext_resource type="PackedScene" uid="uid://cspt2552trc1o" path="res://Scenes/player.tscn" id="2_id0aq"]
-[ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/enemy.tscn" id="3_fbn2b"]
+[ext_resource type="PackedScene" uid="uid://vhidaur57c50" path="res://Scenes/enemies1.tscn" id="3_3mhgs"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_iwequ"]
 
@@ -63,22 +63,6 @@ scale_amount_max = 4.0
 scale_amount_curve = SubResource("Curve_vl3jw")
 color_ramp = SubResource("Gradient_m3pcl")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Enemies" parent="." instance=ExtResource("3_3mhgs")]
 offset_left = 390.0
-offset_top = 67.0
 offset_right = 781.0
-offset_bottom = 221.0
-size_flags_horizontal = 0
-alignment = 1
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 40
-alignment = 1
-
-[node name="BoxContainer3" type="BoxContainer" parent="VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(75, 75)
-layout_mode = 2
-
-[node name="Enemy" parent="VBoxContainer/HBoxContainer3/BoxContainer3" instance=ExtResource("3_fbn2b")]
-position = Vector2(37, 33)
