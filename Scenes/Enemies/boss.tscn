@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://daaa0ebw3q303"]
+[gd_scene load_steps=16 format=3 uid="uid://daaa0ebw3q303"]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/boss.gd" id="1_6m68v"]
 [ext_resource type="AudioStream" uid="uid://cvg06ucldwgbw" path="res://Assets/Audio/lowFrequency_explosion_000.ogg" id="2_vjdaf"]
 [ext_resource type="AudioStream" uid="uid://bg8mxsjf05gxp" path="res://Assets/Audio/lowFrequency_explosion_001.ogg" id="3_j2ldt"]
 [ext_resource type="Texture2D" uid="uid://belv8yscsum8t" path="res://Assets/Tilesheet/simpleSpace_tilesheet@2.png" id="4_v8kbs"]
 [ext_resource type="AudioStream" uid="uid://d1j8rxhtjcefq" path="res://Assets/Audio/explosionCrunch_000.ogg" id="6_m4kwf"]
+[ext_resource type="PackedScene" uid="uid://b57s0wti8l3tq" path="res://Components/health_component.tscn" id="7_h6ip4"]
 [ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="7_sp3jl"]
 
 [sub_resource type="Animation" id="Animation_p86wt"]
@@ -107,22 +108,28 @@ _data = {
 }
 
 [sub_resource type="Curve" id="Curve_evyyb"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.582031, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 0.502443), 0.0, 0.0, 0, 0, Vector2(0.152344, 1), 0.0, 0.0, 0, 0, Vector2(0.582031, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="Gradient" id="Gradient_tg31q"]
-offsets = PackedFloat32Array(0, 0.131579, 0.723684, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.92549, 1, 1, 1, 0.815686, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.723684, 1)
+colors = PackedColorArray(1, 0, 0, 0.92549, 1, 0.658824, 0, 0.815686, 1, 1, 1, 0)
 
-[node name="Boss" type="CharacterBody2D"]
+[node name="Boss" type="CharacterBody2D" node_paths=PackedStringArray("health")]
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_6m68v")
 shoot_sounds = Array[AudioStream]([ExtResource("2_vjdaf"), ExtResource("3_j2ldt")])
+health = NodePath("ShotSignal/HealthComponent")
 
 [node name="ShotSignal" type="Area2D" parent="." groups=["boss"]]
 collision_layer = 8
 collision_mask = 10
+
+[node name="HealthComponent" parent="ShotSignal" instance=ExtResource("7_h6ip4")]
+position = Vector2(0, -198)
+scale = Vector2(1.64, 1.64)
+current_health = 100
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShotSignal"]
 polygon = PackedVector2Array(0, -94, 31, -22, 67, -37, 67, -100, 75, -106, 85, -104, 125, -34, 124, -28, 82, 7, 74, 8, 67, 2, 67, -19, 36, -7, 38, -2, 39, 21, 61, 39, 70, 24, 81, 22, 125, 59, 125, 67, 40, 104, 33, 103, 28, 93, 53, 54, 31, 37, 0, 64, -32, 38, -53, 55, -29, 93, -30, 101, -36, 104, -123, 70, -125, 60, -81, 25, -71, 24, -63, 38, -39, 20, -38, -4, -37, -7, -67, -20, -67, 3, -73, 8, -82, 7, -125, -29, -125, -36, -83, -103, -73, -105, -67, -101, -67, -37, -30, -23)
@@ -143,12 +150,12 @@ bus = &"SFX"
 
 [node name="Hit1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_m4kwf")
-volume_db = -5.0
+volume_db = 3.0
 bus = &"SFX"
 
 [node name="Hit2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_sp3jl")
-volume_db = 8.0
+volume_db = 12.0
 pitch_scale = 0.6
 bus = &"SFX"
 
@@ -164,8 +171,10 @@ libraries = {
 }
 
 [node name="Explosion" type="CPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(-13, 2)
 emitting = false
-amount = 25
+amount = 50
 lifetime = 0.5
 one_shot = true
 explosiveness = 0.85
@@ -183,9 +192,14 @@ damping_max = 100.0
 angle_min = 114.8
 angle_max = 260.9
 scale_amount_min = 5.0
-scale_amount_max = 15.0
+scale_amount_max = 20.0
 scale_amount_curve = SubResource("Curve_evyyb")
+split_scale = true
+scale_curve_x = null
+scale_curve_y = null
 color_ramp = SubResource("Gradient_tg31q")
+hue_variation_min = 0.12
+hue_variation_max = 0.31
 
 [connection signal="area_entered" from="ShotSignal" to="." method="_on_shot_signal_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

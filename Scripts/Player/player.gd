@@ -6,19 +6,20 @@ var keyboard_input_y
 var bullet_shot_scene : PackedScene = preload("res://Scenes/Player/player_shot.tscn")
 var functions = Functions.new()
 
-var player_hp = 3
 var is_invincible : bool = false
 var player_dead : bool = false
 var player_shooting : bool = false
 var index := 0 
 var isControlled := false
 var asteroid_node:CharacterBody2D
+var enemy_damage := randi_range(10,25)
 
 const player_speed = 50
 
 @export_category("Player Variables")
-@export var SHOOTING_SPEED = 0.15
+@export var SHOOTING_SPEED = 0.25 
 @export var shoot_sounds:Array[AudioStream]
+@export var health:HealthComponent
 
 @onready var animation_shoot = $Animation_shoot
 @onready var cpu_particles_2d = $CPUParticles2D
@@ -65,7 +66,7 @@ func _process(delta):
 	if Input.is_action_pressed("ui_accept") and !player_dead and !player_shooting: #checking player isn't dead and not shooting
 		shoot()
 		
-	if Input.is_action_just_pressed("Interaction"):
+	if Input.is_action_just_pressed("Interaction") and not player_dead:
 		controlAsteroid(5)
 
 func _on_bullet_detector_area_entered(area):
@@ -75,11 +76,11 @@ func _on_bullet_detector_area_entered(area):
 	var hp_decrease = 0
 	if area.is_in_group("asteroid"):
 		area.get_parent().done()
-		hp_decrease = player_hp
+		hp_decrease = health.current_health
 		Events.blast.emit(area.get_parent().position)
 	else:
 		Events.blast.emit(area.position)
-		hp_decrease = 1
+		hp_decrease = enemy_damage
 		area.done()
 		
 	player_hit(hp_decrease)
@@ -106,6 +107,7 @@ func controlAsteroid(time):
 		return
 		
 	asteroid_node.isControlled = true
+	Events.controlling_asteroid = true
 	asteroid_node.shot_signal.set_collision_layer_value(4, false)
 	asteroid_node.shot_signal.set_collision_mask_value(4, true)
 	isControlled = false
@@ -113,19 +115,19 @@ func controlAsteroid(time):
 	controller_timer.wait_time = time
 	controller_timer.start()
 	
-func destroyAsteroid():
+func destroyAsteroid(asteroid):
 	give_invincibility(0)
 	isControlled = true
 	controller_timer.stop()
 	if asteroid_node != null:
-		functions.kill_shot(asteroid_node, asteroid_node.sprite_2d, asteroid_node.collision, asteroid_node.particles)
+		functions.kill_shot(asteroid, asteroid.sprite_2d, asteroid.collision, asteroid.particles)
 
 func player_hit(amount):
 	if player_dead:
 		return
 		
-	player_hp -= amount
-	if player_hp <= 0 and has_node("CollisionPolygon2D"):
+	health.take_damage(amount)
+	if health.get_health_ratio() <= 0 and has_node("CollisionPolygon2D"):
 		SoundPlayer.crash.play()
 		kill_player()
 		
@@ -151,8 +153,13 @@ func kill_player():
 	cpu_particles_2d.emitting = true
 	collision_polygon_2d.disabled = true
 	sprite_2d.visible = false
+	health.toggleHealthBar(false)
 	await cpu_particles_2d.finished
 	Events.respawn_player.emit()
+	Events.TOTAL_PLAYER_HEALTH -= 1
+	Events.kill_player.emit()
+	if Events.TOTAL_PLAYER_HEALTH <= 0:
+		Events.end_game.emit()
 	queue_free()
 
 func animate_player_jets():
@@ -171,4 +178,5 @@ func animate_single_jet(jet, destination, input, condition):
 func _on_controller_timer_timeout():
 	if asteroid_node != null:
 		asteroid_node.isControlled = false
+		Events.controlling_asteroid = false
 	isControlled = true

@@ -32,7 +32,7 @@ func _ready():
 func _process(delta):
 	if Events.player != null:
 		var angle_to_zero = global_position.angle_to_point(Events.player.position)
-		rotation = lerp_angle(rotation, angle_to_zero - deg_to_rad(90), 0.02)
+		rotation = lerp_angle(rotation, angle_to_zero - deg_to_rad(90), 0.035)
 	
 func enemy_shotted(amount : int):
 	if enemy_dead:

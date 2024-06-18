@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://vhidaur57c50"]
 
 [ext_resource type="PackedScene" uid="uid://behbqgwl30swv" path="res://Scenes/Enemy_Levels/enemies_template.tscn" id="1_erpea"]
-[ext_resource type="PackedScene" uid="uid://c7ax7om7sogmc" path="res://Scenes/Enemy_Levels/enemies2.tscn" id="2_mqka8"]
 [ext_resource type="PackedScene" uid="uid://b1ajdfvfpyteb" path="res://Scenes/Enemies/enemy.tscn" id="2_ph7xf"]
+[ext_resource type="PackedScene" uid="uid://c7ax7om7sogmc" path="res://Scenes/Enemy_Levels/enemies2.tscn" id="2_yutoc"]
 
 [node name="Enemies" instance=ExtResource("1_erpea")]
 offset_top = 82.0
 offset_bottom = 236.0
-next_level = ExtResource("2_mqka8")
+next_level = ExtResource("2_yutoc")
 
 [node name="BoxContainer4" type="BoxContainer" parent="HBoxContainer3" index="1"]
 custom_minimum_size = Vector2(75, 75)

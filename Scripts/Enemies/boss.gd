@@ -3,16 +3,21 @@ extends CharacterBody2D
 var asteroid_scene = preload("res://Scenes/Enemies/asteroid.tscn")
 @onready var timer = $Timer
 
-var dead := false
-var health := 30
+var isAlive := false
 
 var index := 0
 @export var shoot_sounds : Array[AudioStream]
+@export var health:HealthComponent
 
 func _ready():
 	start_timer()
 	Events.enemies_left = 1
 	Events.connect("hurt_boss", hurt_boss)
+	Events.connect("blast_boss", func():
+		$Explosion.emitting = true
+	)
+	
+	#going into the scene
 	var destination = position
 	position.x = randi_range(-400, 400)
 	position.y = randi_range(-300, -550)
@@ -24,24 +29,17 @@ func _ready():
 func _process(delta):
 	if Events.player != null:
 		var angle_to_zero = global_position.angle_to_point(Events.player.position)
-		rotation = lerp_angle(rotation, angle_to_zero - deg_to_rad(90), 0.02)
+		rotation = lerp_angle(rotation, angle_to_zero - deg_to_rad(90), 0.05)
 		
 func _on_timer_timeout():
-	if dead or Events.player == null:
+	if isAlive or Events.player == null:
 		return
 		
 	Events.shoot.emit(asteroid_scene, position, rotation, false)
 	start_timer()
 	
-	if index > shoot_sounds.size()-1:
-		index = 0
-		shoot_sounds.shuffle()
-
-	$Shoot.stream = shoot_sounds[index]
-	index += 1
-	$Shoot.pitch_scale = randf_range(0.9,1.2)
-	$Shoot.play()
-	$Shooting.play("shoot")
+	Functions.new().playSounds(index, $Shoot, shoot_sounds)
+	
 	start_timer()
 
 func start_timer():
@@ -50,11 +48,11 @@ func start_timer():
 
 
 func boss_shotted(amount : int):
-	if dead:
+	if isAlive:
 		return
 		
-	health -= amount
-	if health <= 0:
+	health.take_damage(amount)
+	if health.get_health_ratio() <= 0:
 		die()
 	
 	Events.shake_camera.emit(randi_range(6, 8), 3.0, 1.5) #emitting signal to shake the camera on Level script
@@ -64,14 +62,15 @@ func boss_shotted(amount : int):
 	$Hit2.play()
 
 func hurt_boss():
-	var hp = randi_range(2, health)
+	var hp = randi_range(10, health.current_health/2)
 	boss_shotted(hp)
 	
 func die():
-	if dead:
+	if isAlive:
 		return
 		
-	dead = true
+	isAlive = false
+	health.toggleHealthBar(false)
 	Events.end_game.emit()
 	$ShotSignal.monitoring = false
 	$ShotSignal.monitorable = false
@@ -83,5 +82,5 @@ func die():
 
 func _on_shot_signal_area_entered(area):
 	var hp_decrease = 1
-	Events.blast.emit(area.position)
+	$Explosion.emitting = true
 	boss_shotted(hp_decrease)

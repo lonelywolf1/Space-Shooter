@@ -4,6 +4,7 @@ extends Node2D
 @onready var camera = $Camera2D
 @onready var enemies = $Enemies
 
+@export var total_hp_sprites:Array[Sprite2D]
 
 var player_spawn_pos
 
@@ -12,6 +13,7 @@ var player_instance := preload("res://Scenes/Player/player.tscn")
 var boss_scene := preload("res://Scenes/Enemies/boss.tscn")
 
 var loaded := false
+var functions = Functions.new()
 
 const boss_position := Vector2(584, 123)
 
@@ -23,10 +25,20 @@ func _ready():
 	Events.connect("respawn_player", respawn_player)
 	Events.connect("shake_camera", camera_shake)
 	Events.connect("blast", create_blast)
+	Events.connect("destroy_asteroid_controlled", func(asteroid_node):
+		functions.kill_shot(asteroid_node, asteroid_node.sprite_2d, asteroid_node.collision, asteroid_node.particles)
+		Events.controlling_asteroid = false
+		)
 	Events.connect("end_game", func():
 		await Events.timer(1)
 		get_tree().change_scene_to_packed(load("res://Scenes/World/game_over.tscn"))
 	)
+	Events.connect("kill_player",func():
+			
+		total_hp_sprites[Events.TOTAL_PLAYER_HEALTH].visible = false
+		)
+	
+	Events.TOTAL_PLAYER_HEALTH = 3
 	
 func _process(delta):
 	if enemies.next_level == null and Events.enemies_left == 0:

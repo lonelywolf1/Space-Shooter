@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cspt2552trc1o"]
+[gd_scene load_steps=23 format=3 uid="uid://cspt2552trc1o"]
 
 [ext_resource type="Script" path="res://Scripts/Player/player.gd" id="1_uxs74"]
 [ext_resource type="AudioStream" uid="uid://chio2v53n4n4a" path="res://Assets/Audio/laserSmall_000.ogg" id="2_2vnc1"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="7_rcwcs"]
 [ext_resource type="AudioStream" uid="uid://d1j8rxhtjcefq" path="res://Assets/Audio/explosionCrunch_000.ogg" id="8_yb5jg"]
 [ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="9_ovnlp"]
+[ext_resource type="PackedScene" uid="uid://b57s0wti8l3tq" path="res://Components/health_component.tscn" id="10_g6sgt"]
 
 [sub_resource type="Animation" id="Animation_6rigj"]
 length = 0.001
@@ -148,10 +149,11 @@ sampling_rate = 44100.0
 packet_sequence = SubResource("OggPacketSequence_mfxnq")
 loop = true
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("health")]
 collision_layer = 7
 script = ExtResource("1_uxs74")
 shoot_sounds = Array[AudioStream]([ExtResource("2_2vnc1"), ExtResource("3_rbs61"), ExtResource("4_ccmjd"), ExtResource("5_42d6m"), ExtResource("6_jg5lv")])
+health = NodePath("CollisionPolygon2D/HealthComponent")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-1, -27, 7, 2, 10, 5, 20, 5, 24, 12, 23, 18, 17, 21, 13, 21, 8, 16, 8, 9, 6, 7, 0, 14, -7, 7, -10, 10, -8, 11, -9, 16, -12, 21, -20, 21, -24, 16, -24, 10, -21, 7, -15, 5, -12, 6, -8, 2)
@@ -221,6 +223,10 @@ texture = ExtResource("7_rcwcs")
 offset = Vector2(-3.33786e-06, 29.3062)
 region_enabled = true
 region_rect = Rect2(395, 315, 44, 69)
+
+[node name="HealthComponent" parent="CollisionPolygon2D" instance=ExtResource("10_g6sgt")]
+scale = Vector2(0.59115, 0.8)
+current_health = 100
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
