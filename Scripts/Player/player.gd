@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+class_name Player
 
 var keyboard_input_x
 var keyboard_input_y
@@ -17,7 +17,7 @@ var enemy_damage := randi_range(10,25)
 const player_speed = 50
 
 @export_category("Player Variables")
-@export var SHOOTING_SPEED = 0.25 
+@export var SHOOTING_SPEED = 0.2
 @export var shoot_sounds:Array[AudioStream]
 @export var health:HealthComponent
 
@@ -108,6 +108,7 @@ func controlAsteroid(time):
 		
 	asteroid_node.isControlled = true
 	Events.controlling_asteroid = true
+	Events.control_asteroid.emit(true)
 	asteroid_node.shot_signal.set_collision_layer_value(4, false)
 	asteroid_node.shot_signal.set_collision_mask_value(4, true)
 	isControlled = false
@@ -121,6 +122,8 @@ func destroyAsteroid(asteroid):
 	controller_timer.stop()
 	if asteroid_node != null:
 		functions.kill_shot(asteroid, asteroid.sprite_2d, asteroid.collision, asteroid.particles)
+		
+	Events.control_asteroid.emit(false)
 
 func player_hit(amount):
 	if player_dead:
@@ -159,7 +162,7 @@ func kill_player():
 	Events.TOTAL_PLAYER_HEALTH -= 1
 	Events.kill_player.emit()
 	if Events.TOTAL_PLAYER_HEALTH <= 0:
-		Events.end_game.emit()
+		get_tree().change_scene_to_packed(load("res://Scenes/World/game_over.tscn"))
 	queue_free()
 
 func animate_player_jets():
@@ -180,3 +183,4 @@ func _on_controller_timer_timeout():
 		asteroid_node.isControlled = false
 		Events.controlling_asteroid = false
 	isControlled = true
+	Events.control_asteroid.emit(false)

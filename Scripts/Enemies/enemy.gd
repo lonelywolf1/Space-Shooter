@@ -1,3 +1,4 @@
+class_name Enemy
 extends CharacterBody2D
 
 var enemy_hp = randi_range(2,5)

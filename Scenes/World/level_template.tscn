@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://d330rdbdevcdw"]
+[gd_scene load_steps=13 format=3 uid="uid://d330rdbdevcdw"]
 
 [ext_resource type="Script" path="res://Scripts/World/level.gd" id="1_7ufs6"]
 [ext_resource type="PackedScene" uid="uid://cspt2552trc1o" path="res://Scenes/Player/player.tscn" id="2_l1tbf"]
-[ext_resource type="PackedScene" uid="uid://vhidaur57c50" path="res://Scenes/Enemy_Levels/enemies1.tscn" id="3_mm2v5"]
 [ext_resource type="Texture2D" uid="uid://d067e8o6evj5b" path="res://Assets/PNG/love-always-wins.png" id="4_v0l83"]
+[ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="5_6a70a"]
+[ext_resource type="PackedScene" uid="uid://cntdslw2fgo1a" path="res://Scenes/Enemies/enemies_template.tscn" id="5_qsrfg"]
+[ext_resource type="Script" path="res://Scenes/World/AsteroidTimer.gd" id="5_uk8wg"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_iwequ"]
 
@@ -101,9 +103,10 @@ _data = {
 "idle": SubResource("Animation_qwpee")
 }
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("total_hp_sprites")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("enemies", "total_hp_sprites")]
 position = Vector2(-1, 0)
 script = ExtResource("1_7ufs6")
+enemies = [NodePath("Enemies"), NodePath("Enemies2")]
 total_hp_sprites = [NodePath("CanvasLayer/Sprite2D"), NodePath("CanvasLayer/Sprite2D2"), NodePath("CanvasLayer/Sprite2D3")]
 metadata/_edit_horizontal_guides_ = [-232.0, -233.0]
 metadata/_edit_vertical_guides_ = [96.0, -154.0]
@@ -151,11 +154,30 @@ scale_amount_max = 4.0
 scale_amount_curve = SubResource("Curve_vl3jw")
 color_ramp = SubResource("Gradient_m3pcl")
 
-[node name="Enemies" parent="." instance=ExtResource("3_mm2v5")]
-offset_left = 390.0
-offset_top = 60.0
-offset_right = 781.0
-offset_bottom = 214.0
+[node name="Enemies" parent="." node_paths=PackedStringArray("hBoxContainer") instance=ExtResource("5_qsrfg")]
+offset_left = 136.0
+offset_top = 105.0
+offset_right = 1016.0
+offset_bottom = 180.0
+hBoxContainer = NodePath("HBoxContainer2")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Enemies"]
+layout_mode = 2
+theme_override_constants/separation = 90
+alignment = 1
+
+[node name="Enemies2" parent="." node_paths=PackedStringArray("hBoxContainer") instance=ExtResource("5_qsrfg")]
+offset_left = 136.0
+offset_top = 182.0
+offset_right = 1016.0
+offset_bottom = 257.0
+scale = Vector2(1, 0.982412)
+hBoxContainer = NodePath("HBoxContainer2")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Enemies2"]
+layout_mode = 2
+theme_override_constants/separation = 90
+alignment = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -179,3 +201,36 @@ libraries = {
 "": SubResource("AnimationLibrary_fb6gx")
 }
 autoplay = "idle"
+
+[node name="RoundNumber" type="Label" parent="CanvasLayer"]
+offset_left = 991.0
+offset_top = 19.0
+offset_right = 1115.0
+offset_bottom = 55.0
+pivot_offset = Vector2(62, 18)
+theme_override_font_sizes/font_size = 26
+text = "ROUND: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AsteroidTimer" type="Node" parent="CanvasLayer" node_paths=PackedStringArray("player")]
+script = ExtResource("5_uk8wg")
+player = NodePath("../../Player")
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/AsteroidTimer"]
+position = Vector2(1010, 84)
+texture = ExtResource("5_6a70a")
+region_enabled = true
+region_rect = Rect2(202, 257, 44, 60)
+
+[node name="TimerText" type="Label" parent="CanvasLayer/AsteroidTimer"]
+offset_left = 988.0
+offset_top = 68.0
+offset_right = 1112.0
+offset_bottom = 104.0
+pivot_offset = Vector2(62, 18)
+theme_override_font_sizes/font_size = 26
+text = "5s
+"
+horizontal_alignment = 1
+vertical_alignment = 1

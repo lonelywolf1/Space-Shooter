@@ -34,8 +34,22 @@ func _process(delta):
 func _on_timer_timeout():
 	if isAlive or Events.player == null:
 		return
+	
+	if randi_range(0, 1):
+		for i in 3:
+			var pos 
+			match i:
+				0:
+					pos = position
+				1:
+					pos = Vector2(position.x+75, position.y)
+				2:
+					pos = Vector2(position.x-75, position.y)
+			await Events.timer(0.03)
+			Events.shoot.emit(asteroid_scene, pos, rotation, false)
+	else:
+		Events.shoot.emit(asteroid_scene, position, rotation, false)
 		
-	Events.shoot.emit(asteroid_scene, position, rotation, false)
 	start_timer()
 	
 	Functions.new().playSounds(index, $Shoot, shoot_sounds)
@@ -71,13 +85,10 @@ func die():
 		
 	isAlive = false
 	health.toggleHealthBar(false)
-	Events.end_game.emit()
-	$ShotSignal.monitoring = false
-	$ShotSignal.monitorable = false
-	$ShotSignal/CollisionPolygon2D.disabled = true
-	$ShotSignal/CollisionPolygon2D/Sprite2D.visible = false
+	$ShotSignal.queue_free()
 	$Explosion.emitting = true
 	await $Explosion.finished
+	Events.boss_dead.emit()
 	queue_free()
 
 func _on_shot_signal_area_entered(area):
