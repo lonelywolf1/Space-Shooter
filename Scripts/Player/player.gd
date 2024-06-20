@@ -39,6 +39,9 @@ var front_jets_max
 func _ready():
 	Events.player = self
 	Events.connect("destroy_asteroid_controlled", destroyAsteroid)
+	Events.connect("shoot_touch", func():
+		shoot()
+		)
 	right_jet_max = right_jet.scale.y
 	left_jet_max = left_jet.scale.y
 	back_jet_max = back_jet.scale.y

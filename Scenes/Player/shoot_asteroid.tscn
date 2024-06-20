@@ -1,0 +1,126 @@
+[gd_scene load_steps=9 format=3 uid="uid://m6h4omvpjfvd"]
+
+[ext_resource type="Script" path="res://Scripts/World/shoot_ateroid.gd" id="1_4np4h"]
+[ext_resource type="Texture2D" uid="uid://bm30au8mjfc2f" path="res://addons/virtual_joystick/textures/joystick_base_outline.png" id="2_dcjm6"]
+[ext_resource type="Texture2D" uid="uid://belv8yscsum8t" path="res://Assets/Tilesheet/simpleSpace_tilesheet@2.png" id="3_bc6sp"]
+
+[sub_resource type="Animation" id="Animation_4x32u"]
+resource_name = "RESET"
+
+[sub_resource type="Animation" id="Animation_57ncy"]
+resource_name = "shoot"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Base/Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.69998, 1.69998), Vector2(1.5, 1.5)]
+}
+
+[sub_resource type="Animation" id="Animation_sw3jk"]
+resource_name = "no_use"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Base/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.541176)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Base:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.541176)]
+}
+
+[sub_resource type="Animation" id="Animation_vifex"]
+resource_name = "in_use"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Base:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.541176), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Base/Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.541176), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wtxro"]
+_data = {
+"RESET": SubResource("Animation_4x32u"),
+"in_use": SubResource("Animation_vifex"),
+"no_use": SubResource("Animation_sw3jk"),
+"shoot": SubResource("Animation_57ncy")
+}
+
+[node name="Shoot_Asteroid" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_4np4h")
+
+[node name="Base" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.541176)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 934.0
+offset_top = 423.0
+offset_right = 1134.0
+offset_bottom = 623.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.40001, 0.40001)
+pivot_offset = Vector2(100, 100)
+mouse_force_pass_scroll_events = false
+texture = ExtResource("2_dcjm6")
+stretch_mode = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="Base"]
+modulate = Color(1, 1, 1, 0.541176)
+position = Vector2(102.5, 110)
+scale = Vector2(1.69998, 1.69998)
+texture = ExtResource("3_bc6sp")
+region_enabled = true
+region_rect = Rect2(139, 535, 109, 94)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_wtxro")
+}

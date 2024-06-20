@@ -59,10 +59,11 @@ func _process(delta):
 			enemy_container.clear_container() #clears Box Container!
 			
 		var boss_chance := randi_range(1,100)
-		if boss_chance < 20:
+		if boss_chance < 90:
 			var new_boss = boss_scene.instantiate()
 			new_boss.position = boss_position
 			add_child(new_boss)
+			Events.boss_spawn.emit()
 			print("THE BOSS!!!")
 		else:
 			if random_amount > 7:
@@ -74,7 +75,8 @@ func _process(delta):
 						amount+=1
 						
 					enemies[i].spawn_enemies(amount)
-	if Events.round_updated and Events.enemies_left > 0:	
+					
+	if Events.round_updated and Events.enemies_left > 0:
 		Events.round_updated = false
 	
 #Custom Functions

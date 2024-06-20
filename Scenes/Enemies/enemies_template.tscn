@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Enemies/enemy_spawner.gd" id="1_pgbal"]
 
-[node name="Enemies template" type="VBoxContainer" node_paths=PackedStringArray("hBoxContainer")]
+[node name="Enemies template" type="VBoxContainer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -12,4 +12,3 @@ offset_right = 440.0
 offset_bottom = 161.0
 grow_horizontal = 2
 script = ExtResource("1_pgbal")
-hBoxContainer = NodePath("")

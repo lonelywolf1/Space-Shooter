@@ -8,9 +8,11 @@ signal destroy_asteroid_controlled
 signal control_asteroid
 signal hurt_boss
 signal boss_dead
+signal boss_spawn
 signal blast_boss
 signal kill_player
 signal next_round
+signal shoot_touch
 
 var player
 var enemies_left = 0
