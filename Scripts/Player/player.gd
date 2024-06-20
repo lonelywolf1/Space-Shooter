@@ -17,7 +17,7 @@ var enemy_damage := randi_range(10,25)
 const player_speed = 50
 
 @export_category("Player Variables")
-@export var SHOOTING_SPEED = 0.2
+@export var SHOOTING_SPEED = 0.15
 @export var shoot_sounds:Array[AudioStream]
 @export var health:HealthComponent
 

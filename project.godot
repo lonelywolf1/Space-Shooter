@@ -22,8 +22,6 @@ SoundPlayer="*res://Scenes/World/sound_player.tscn"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 

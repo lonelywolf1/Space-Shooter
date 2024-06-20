@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var player = $Player
 @onready var camera = $Camera2D
-@onready var round_number = $CanvasLayer/RoundNumber
+@onready var round_number = $CanvasLayer/TOP_RIGHT/AsteroidTimer/TimerText
 
 @export var enemies:Array[EnemyHandler]
 @export var total_hp_sprites:Array[Sprite2D]
@@ -54,27 +54,40 @@ func _ready():
 func _process(delta):
 	#Handling Enemies
 	if Events.enemies_left <= 0:
-		var random_amount := randi_range(1, 13)
+			
 		for enemy_container in enemies:
 			enemy_container.clear_container() #clears Box Container!
 			
 		var boss_chance := randi_range(1,100)
-		if boss_chance < 90:
+		if boss_chance < 20:
 			var new_boss = boss_scene.instantiate()
 			new_boss.position = boss_position
 			add_child(new_boss)
 			Events.boss_spawn.emit()
 			print("THE BOSS!!!")
 		else:
+			var random_amount := 0
+			if current_round < 10:
+				random_amount = randi_range(3, 8)
+			elif current_round >= 10:
+				random_amount = randi_range(3, 10)
+			elif current_round >= 20:
+				random_amount = randi_range(4, 15)
+			else:
+				random_amount = randi_range(2, 13) #DEFAULT
+				
 			if random_amount > 7:
 				for i in range(enemies.size()):
-					var amount = random_amount / enemies.size()
+					var amount = random_amount
+					# check amount % random_amount = ?
 					if i % 2:
 						amount-=1
 					else:
 						amount+=1
 						
 					enemies[i].spawn_enemies(amount)
+			else:
+				enemies[0].spawn_enemies(random_amount)
 					
 	if Events.round_updated and Events.enemies_left > 0:
 		Events.round_updated = false

@@ -3,8 +3,8 @@ extends Button
 @onready var animation_player = $AnimationPlayer
 
 func _ready():
-	if OS.get_name() in ["Windows", "Linux", "OSX"]:
-		hide()
+	#if OS.get_name() in ["Windows", "Linux", "OSX"]:
+		#hide()
 		
 	button_down.connect(is_button_down)
 	button_up.connect(is_button_up)

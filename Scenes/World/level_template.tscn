@@ -25,7 +25,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("Hearts/Sprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -37,7 +37,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D2:scale")
+tracks/1/path = NodePath("Hearts/Sprite2D2:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -49,7 +49,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D3:scale")
+tracks/2/path = NodePath("Hearts/Sprite2D3:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -66,7 +66,7 @@ loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("Hearts/Sprite2D:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -78,7 +78,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D2:scale")
+tracks/1/path = NodePath("Hearts/Sprite2D2:scale")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -90,7 +90,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D3:scale")
+tracks/2/path = NodePath("Hearts/Sprite2D3:scale")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -110,7 +110,7 @@ _data = {
 position = Vector2(-1, 0)
 script = ExtResource("1_7ufs6")
 enemies = [NodePath("Enemies"), NodePath("Enemies2")]
-total_hp_sprites = [NodePath("CanvasLayer/Sprite2D"), NodePath("CanvasLayer/Sprite2D2"), NodePath("CanvasLayer/Sprite2D3")]
+total_hp_sprites = [NodePath("CanvasLayer/Hearts/Sprite2D"), NodePath("CanvasLayer/Hearts/Sprite2D2"), NodePath("CanvasLayer/Hearts/Sprite2D3")]
 metadata/_edit_horizontal_guides_ = [-232.0, -233.0]
 metadata/_edit_vertical_guides_ = [96.0, -154.0]
 
@@ -119,6 +119,7 @@ position = Vector2(577.1, 323.12)
 
 [node name="Player" parent="." instance=ExtResource("2_l1tbf")]
 position = Vector2(575, 539)
+scale = Vector2(1.15, 1.15)
 
 [node name="World Boundaries" type="StaticBody2D" parent="."]
 
@@ -142,13 +143,13 @@ rotation = 1.5708
 shape = SubResource("WorldBoundaryShape2D_iwequ")
 
 [node name="Background" type="CPUParticles2D" parent="."]
-position = Vector2(569, 266)
-amount = 650
+position = Vector2(569, 273)
+amount = 1450
 lifetime = 8.0
 preprocess = 10.0
 speed_scale = 0.5
 emission_shape = 3
-emission_rect_extents = Vector2(1280, 720)
+emission_rect_extents = Vector2(2000, 1000)
 direction = Vector2(0, 1)
 gravity = Vector2(0, 10)
 initial_velocity_max = 10.0
@@ -184,17 +185,23 @@ alignment = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+[node name="Hearts" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Hearts"]
 position = Vector2(69, 36)
 scale = Vector2(0.0917969, 0.0917969)
 texture = ExtResource("4_v0l83")
 
-[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer"]
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/Hearts"]
 position = Vector2(129, 36)
 scale = Vector2(0.0917969, 0.0917969)
 texture = ExtResource("4_v0l83")
 
-[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer"]
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer/Hearts"]
 position = Vector2(189, 36)
 scale = Vector2(0.0917969, 0.0917969)
 texture = ExtResource("4_v0l83")
@@ -205,7 +212,18 @@ libraries = {
 }
 autoplay = "idle"
 
-[node name="RoundNumber" type="Label" parent="CanvasLayer"]
+[node name="TOP_RIGHT" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1151.0
+offset_top = -1.0
+offset_right = -1111.0
+offset_bottom = 39.0
+grow_horizontal = 0
+
+[node name="RoundNumber" type="Label" parent="CanvasLayer/TOP_RIGHT"]
 offset_left = 991.0
 offset_top = 19.0
 offset_right = 1115.0
@@ -216,17 +234,17 @@ text = "ROUND: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AsteroidTimer" type="Node" parent="CanvasLayer" node_paths=PackedStringArray("player")]
+[node name="AsteroidTimer" type="Node" parent="CanvasLayer/TOP_RIGHT" node_paths=PackedStringArray("player")]
 script = ExtResource("5_uk8wg")
-player = NodePath("../../Player")
+player = NodePath("../../../Player")
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/AsteroidTimer"]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/TOP_RIGHT/AsteroidTimer"]
 position = Vector2(1010, 84)
 texture = ExtResource("5_6a70a")
 region_enabled = true
 region_rect = Rect2(202, 257, 44, 60)
 
-[node name="TimerText" type="Label" parent="CanvasLayer/AsteroidTimer"]
+[node name="TimerText" type="Label" parent="CanvasLayer/TOP_RIGHT/AsteroidTimer"]
 offset_left = 988.0
 offset_top = 68.0
 offset_right = 1112.0
@@ -238,31 +256,42 @@ text = "5s
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Virtual joystick left" parent="CanvasLayer" instance=ExtResource("7_eqq3v")]
+offset_left = -168.0
+offset_top = -514.0
+offset_right = 556.0
+offset_bottom = 152.0
+scale = Vector2(0.84, 0.84)
+pivot_offset = Vector2(360.714, 333.333)
+joystick_mode = 1
+visibility_mode = 2
+
 [node name="Controllers" type="Control" parent="CanvasLayer"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Virtual joystick left" parent="CanvasLayer/Controllers" instance=ExtResource("7_eqq3v")]
-layout_mode = 1
-offset_left = 2.0
-offset_top = 325.0
-offset_right = 302.0
-offset_bottom = 625.0
-scale = Vector2(0.84, 0.84)
-visibility_mode = 2
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1219.0
+offset_top = -624.0
+offset_right = -1179.0
+offset_bottom = -584.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="Shoot_Button" parent="CanvasLayer/Controllers" instance=ExtResource("8_vaj01")]
 layout_mode = 0
-offset_left = -27.0
-offset_top = -40.0
-offset_right = -19.0
-offset_bottom = -32.0
+offset_left = -26.0
+offset_top = -50.0
+offset_right = -18.0
+offset_bottom = -42.0
+pivot_offset = Vector2(1038, 527)
 
 [node name="Shoot_Asteroid" parent="CanvasLayer/Controllers" instance=ExtResource("9_c8mjd")]
 layout_mode = 0
-offset_left = 69.0
-offset_top = -137.0
-offset_right = 77.0
-offset_bottom = -129.0
+offset_left = 62.0
+offset_top = -160.0
+offset_right = 70.0
+offset_bottom = -152.0
+pivot_offset = Vector2(1038, 530)
