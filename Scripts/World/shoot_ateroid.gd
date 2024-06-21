@@ -6,8 +6,8 @@ var can_use := false
 @export var use_cool_down := 1
 
 func _ready():
-	if OS.get_name() in ["Windows", "Linux", "OSX"]:
-		hide()
+	#if OS.get_name() in ["Windows", "Linux", "OSX"]:
+		#hide()
 		
 	animation_player.play("no_use")
 	can_use = false
@@ -32,11 +32,15 @@ func _ready():
 			animation_player.queue("no_use")
 		)
 		
-	pressed.connect(control_asteroid)
+	button_down.connect(control_asteroid_down)
+	button_up.connect(control_asteroid_up)
 	
-func control_asteroid():
-	if can_use:
+func control_asteroid_down():
 		animation_player.play("shoot")
-		Input.action_release("Interaction")
 		Input.action_press("Interaction")
+		can_use = false
+		
+func control_asteroid_up():
+		animation_player.play("no_use")
+		Input.action_release("Interaction")
 		can_use = false

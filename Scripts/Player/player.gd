@@ -12,12 +12,8 @@ var player_shooting : bool = false
 var index := 0 
 var isControlled := false
 var asteroid_node:CharacterBody2D
-var enemy_damage := randi_range(10,25)
-
-const player_speed = 50
 
 @export_category("Player Variables")
-@export var SHOOTING_SPEED = 0.15
 @export var shoot_sounds:Array[AudioStream]
 @export var health:HealthComponent
 
@@ -59,9 +55,11 @@ func _process(delta):
 		keyboard_input_y = Input.get_axis("ui_up", "ui_down")
 		var p_direction = Vector2(keyboard_input_x, keyboard_input_y).normalized() #getting Axis direction & normalizing to pixel moving
 		
-		velocity += p_direction * player_speed
+		velocity += p_direction * StatsFramework.player_speed * (100*delta)
+		
 		
 		move_and_slide()
+		
 	apply_friction_onplayer()
 	animate_player_jets()
 	engine_sound()
@@ -83,7 +81,7 @@ func _on_bullet_detector_area_entered(area):
 		Events.blast.emit(area.get_parent().position)
 	else:
 		Events.blast.emit(area.position)
-		hp_decrease = enemy_damage
+		hp_decrease = StatsFramework.getPlayerDamage()
 		area.done()
 		
 	player_hit(hp_decrease)
@@ -97,7 +95,7 @@ func shoot():
 	animation_shoot.play("shoot")
 	functions.playSounds(index, $Shoot, shoot_sounds)
 	
-	await Events.timer(SHOOTING_SPEED)
+	await Events.timer(StatsFramework.player_shooting_speed)
 	player_shooting = false
 	
 func apply_friction_onplayer():
@@ -115,12 +113,12 @@ func controlAsteroid(time):
 	asteroid_node.shot_signal.set_collision_layer_value(4, false)
 	asteroid_node.shot_signal.set_collision_mask_value(4, true)
 	isControlled = false
-	give_invincibility(time)
+	give_invincibility()
 	controller_timer.wait_time = time
 	controller_timer.start()
 	
 func destroyAsteroid(asteroid):
-	give_invincibility(0)
+	remove_invincibility()
 	isControlled = true
 	controller_timer.stop()
 	if asteroid_node != null:
@@ -137,20 +135,24 @@ func player_hit(amount):
 		SoundPlayer.crash.play()
 		kill_player()
 		
-	give_invincibility(0.5)
+	give_invincibility()
+	await Events.timer(0.5)
+	remove_invincibility()
 	Events.shake_camera.emit(randi_range(5, 7), 5.0, 3.0)
 	$Hit1.pitch_scale = randf_range(0.8,1.3)
 	$Hit2.pitch_scale = randf_range(0.8,1.3)
 	$Hit1.play()
 	$Hit2.play()
 		
-func give_invincibility(time):
+func give_invincibility():
 	is_invincible = true
 	$AnimationPlayer.play("invincible")
-	await Events.timer(time)
+	
+	
+func remove_invincibility():
 	is_invincible = false
 	$AnimationPlayer.play("RESET")
-	
+		
 func kill_player():
 	if player_dead:
 		return
@@ -186,4 +188,5 @@ func _on_controller_timer_timeout():
 		asteroid_node.isControlled = false
 		Events.controlling_asteroid = false
 	isControlled = true
+	remove_invincibility()
 	Events.control_asteroid.emit(false)

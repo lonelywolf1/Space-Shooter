@@ -93,7 +93,6 @@ offset_bottom = 8.0
 script = ExtResource("1_4np4h")
 
 [node name="Base" type="TextureRect" parent="."]
-modulate = Color(1, 1, 1, 0.541176)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -113,7 +112,6 @@ texture = ExtResource("2_dcjm6")
 stretch_mode = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="Base"]
-modulate = Color(1, 1, 1, 0.541176)
 position = Vector2(102.5, 110)
 scale = Vector2(1.69998, 1.69998)
 texture = ExtResource("3_bc6sp")

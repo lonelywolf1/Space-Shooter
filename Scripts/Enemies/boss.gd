@@ -23,7 +23,7 @@ func _ready():
 	position.y = randi_range(-300, -550)
 	while position.distance_to(destination) > 1:
 		position.x = lerp(position.x, destination.x, 0.05)
-		position.y = lerp(position.y, destination.y, 0.05)
+		position.y = lerp(position.y, destination.y+30, 0.05)
 		await Events.timer(0.01)
 
 func _process(delta):

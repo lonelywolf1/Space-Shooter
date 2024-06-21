@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Events="*res://Scenes/World/events.tscn"
 SoundPlayer="*res://Scenes/World/sound_player.tscn"
+StatsFramework="*res://Scenes/World/stats_framework.tscn"
 
 [display]
 

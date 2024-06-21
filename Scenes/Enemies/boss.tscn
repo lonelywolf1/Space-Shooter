@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://daaa0ebw3q303"]
+[gd_scene load_steps=17 format=3 uid="uid://daaa0ebw3q303"]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/boss.gd" id="1_6m68v"]
 [ext_resource type="AudioStream" uid="uid://cvg06ucldwgbw" path="res://Assets/Audio/lowFrequency_explosion_000.ogg" id="2_vjdaf"]
 [ext_resource type="AudioStream" uid="uid://bg8mxsjf05gxp" path="res://Assets/Audio/lowFrequency_explosion_001.ogg" id="3_j2ldt"]
 [ext_resource type="Texture2D" uid="uid://belv8yscsum8t" path="res://Assets/Tilesheet/simpleSpace_tilesheet@2.png" id="4_v8kbs"]
+[ext_resource type="Script" path="res://Scripts/World/SkinPicker.gd" id="5_af3jx"]
 [ext_resource type="AudioStream" uid="uid://d1j8rxhtjcefq" path="res://Assets/Audio/explosionCrunch_000.ogg" id="6_m4kwf"]
 [ext_resource type="PackedScene" uid="uid://b57s0wti8l3tq" path="res://Components/health_component.tscn" id="7_h6ip4"]
 [ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="7_sp3jl"]
@@ -134,11 +135,28 @@ current_health = 100
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ShotSignal"]
 polygon = PackedVector2Array(0, -94, 31, -22, 67, -37, 67, -100, 75, -106, 85, -104, 125, -34, 124, -28, 82, 7, 74, 8, 67, 2, 67, -19, 36, -7, 38, -2, 39, 21, 61, 39, 70, 24, 81, 22, 125, 59, 125, 67, 40, 104, 33, 103, 28, 93, 53, 54, 31, 37, 0, 64, -32, 38, -53, 55, -29, 93, -30, 101, -36, 104, -123, 70, -125, 60, -81, 25, -71, 24, -63, 38, -39, 20, -38, -4, -37, -7, -67, -20, -67, 3, -73, 8, -82, 7, -125, -29, -125, -36, -83, -103, -73, -105, -67, -101, -67, -37, -30, -23)
 
-[node name="Sprite2D" type="Sprite2D" parent="ShotSignal/CollisionPolygon2D"]
+[node name="SkinPicker" type="Node2D" parent="ShotSignal/CollisionPolygon2D" node_paths=PackedStringArray("skins")]
+script = ExtResource("5_af3jx")
+skins = [NodePath("Sprite2D"), NodePath("Sprite2D2"), NodePath("Sprite2D3")]
+
+[node name="Sprite2D" type="Sprite2D" parent="ShotSignal/CollisionPolygon2D/SkinPicker"]
 scale = Vector2(2.4, 2)
 texture = ExtResource("4_v8kbs")
 region_enabled = true
 region_rect = Rect2(255, 253, 130, 135)
+
+[node name="Sprite2D2" type="Sprite2D" parent="ShotSignal/CollisionPolygon2D/SkinPicker"]
+position = Vector2(-8, -9)
+scale = Vector2(2.4, 2.24)
+texture = ExtResource("4_v8kbs")
+region_enabled = true
+region_rect = Rect2(773, 121, 118, 126)
+
+[node name="Sprite2D3" type="Sprite2D" parent="ShotSignal/CollisionPolygon2D/SkinPicker"]
+scale = Vector2(2.08, 1.94133)
+texture = ExtResource("4_v8kbs")
+region_enabled = true
+region_rect = Rect2(894, 254, 132, 131)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.5

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b1ajdfvfpyteb"]
+[gd_scene load_steps=18 format=3 uid="uid://b1ajdfvfpyteb"]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/enemy.gd" id="1_4g5oh"]
 [ext_resource type="AudioStream" uid="uid://chio2v53n4n4a" path="res://Assets/Audio/laserSmall_000.ogg" id="2_jh8y6"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://bm846taqelydv" path="res://Assets/Audio/laserSmall_002.ogg" id="4_tyucb"]
 [ext_resource type="AudioStream" uid="uid://tv5m2s8y4pbo" path="res://Assets/Audio/laserSmall_003.ogg" id="5_r7ljp"]
 [ext_resource type="AudioStream" uid="uid://dutfdvf647c53" path="res://Assets/Audio/laserSmall_004.ogg" id="6_lvbwj"]
+[ext_resource type="Script" path="res://Scripts/World/SkinPicker.gd" id="7_5xqd1"]
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="7_ktdbq"]
 [ext_resource type="AudioStream" uid="uid://d1j8rxhtjcefq" path="res://Assets/Audio/explosionCrunch_000.ogg" id="8_xwetb"]
 [ext_resource type="AudioStream" uid="uid://d4kxso6o22mof" path="res://Assets/Audio/impactMetal_002.ogg" id="9_ll2u2"]
@@ -16,7 +17,7 @@ length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionPolygon2D/Sprite2D:scale")
+tracks/0/path = NodePath("CollisionPolygon2D/SkinPicker/Sprite2D:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -116,12 +117,23 @@ collision_mask = 2
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CollisionPolygon2D/ShotSignal"]
 polygon = PackedVector2Array(14, -22, 27, -22, 27, 23, 14, 23, 14, 6, 11, 6, 11, 14, 5, 14, 5, 21, -4, 21, -4, 14, -10, 14, -10, 6, -13, 6, -13, 23, -26, 23, -26, -22, -13, -22, -13, 2, -10, 2, -10, -6, 10, -6, 10, 2, 14, 2)
 
-[node name="Sprite2D" type="Sprite2D" parent="CollisionPolygon2D"]
-position = Vector2(-27, -4)
+[node name="SkinPicker" type="Node2D" parent="CollisionPolygon2D" node_paths=PackedStringArray("skins")]
+script = ExtResource("7_5xqd1")
+skins = [NodePath("Sprite2D"), NodePath("Sprite2D2")]
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionPolygon2D/SkinPicker"]
+position = Vector2(-23, -6)
 texture = ExtResource("7_ktdbq")
 offset = Vector2(22.5, 6.33333)
 region_enabled = true
 region_rect = Rect2(256, 265, 63, 54)
+
+[node name="Sprite2D2" type="Sprite2D" parent="CollisionPolygon2D/SkinPicker"]
+position = Vector2(-25, -6)
+texture = ExtResource("7_ktdbq")
+offset = Vector2(22.5, 6.33333)
+region_enabled = true
+region_rect = Rect2(381, 260, 65, 55)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.5

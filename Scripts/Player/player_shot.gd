@@ -5,7 +5,7 @@ extends Area2D
 var functions = Functions.new()
 
 func _process(delta):
-	position.y += -shot_speed
+	position.y += -shot_speed * (100*delta)
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	if has_node("CollisionPolygon2D"):

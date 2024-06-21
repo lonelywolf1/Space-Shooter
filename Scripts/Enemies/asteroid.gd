@@ -3,7 +3,6 @@ extends CharacterBody2D
 var keyboard_input_x
 var keyboard_input_y
 var speed := randi_range(4,7)
-const asteroid_speed = 60
 
 var functions = Functions.new()
 var isControlled := false
@@ -21,7 +20,7 @@ func _ready():
 func _process(delta):
 	if not isControlled:
 		var direction = Vector2.UP.rotated(rotation)
-		position += speed * direction
+		position += speed * direction * (100*delta)
 	else:
 		var target_scale: Vector2 = Vector2(1.2, 1.2)
 		var scale_speed: float = 0.15  # Adjust speed as needed
@@ -30,7 +29,7 @@ func _process(delta):
 		keyboard_input_x = Input.get_axis("ui_left", "ui_right")
 		keyboard_input_y = Input.get_axis("ui_up", "ui_down")
 		var p_direction = Vector2(keyboard_input_x, keyboard_input_y).normalized() #getting Axis direction & normalizing to pixel moving
-		velocity += p_direction * asteroid_speed
+		velocity += p_direction * StatsFramework.asteroid_speed * (100*delta)
 	
 		if velocity.length() > 0:
 			var target_angle = p_direction.angle()

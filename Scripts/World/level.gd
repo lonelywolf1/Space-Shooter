@@ -2,10 +2,12 @@ extends Node2D
 
 @onready var player = $Player
 @onready var camera = $Camera2D
-@onready var round_number = $CanvasLayer/TOP_RIGHT/AsteroidTimer/TimerText
+@onready var round_number = $CanvasLayer/TOP_RIGHT/RoundNumber
 
 @export var enemies:Array[EnemyHandler]
 @export var total_hp_sprites:Array[Sprite2D]
+@export var boss_minimum_round:int = 5 #5 def
+@export var boss_spawn_chance:int = 20 #20 def
 
 var player_spawn_pos
 
@@ -59,7 +61,7 @@ func _process(delta):
 			enemy_container.clear_container() #clears Box Container!
 			
 		var boss_chance := randi_range(1,100)
-		if boss_chance < 20:
+		if boss_chance < boss_spawn_chance and current_round >= boss_minimum_round:
 			var new_boss = boss_scene.instantiate()
 			new_boss.position = boss_position
 			add_child(new_boss)
@@ -78,7 +80,7 @@ func _process(delta):
 				
 			if random_amount > 7:
 				for i in range(enemies.size()):
-					var amount = random_amount
+					var amount = random_amount / enemies.size()
 					# check amount % random_amount = ?
 					if i % 2:
 						amount-=1
