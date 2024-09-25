@@ -1,0 +1,53 @@
+[gd_scene load_steps=15 format=3 uid="uid://xhyy45rnvoaw"]
+
+[ext_resource type="Script" path="res://Scripts/pickable.gd" id="1_fo5ea"]
+[ext_resource type="Script" path="res://Scripts/World/upgrade_module.gd" id="2_m5kya"]
+[ext_resource type="Resource" uid="uid://dpcre7e70t6sw" path="res://Scenes/Upgrades/Temporary_Upgrades/firerate_upgrade.tres" id="3_ojha4"]
+[ext_resource type="Resource" uid="uid://cyvi0wscklob2" path="res://Scenes/Upgrades/Temporary_Upgrades/damage_upgrade.tres" id="4_wojbo"]
+[ext_resource type="Resource" uid="uid://cgrcpsmhqf3ys" path="res://Scenes/Upgrades/Temporary_Upgrades/speed_upgrade.tres" id="5_5d0xa"]
+[ext_resource type="Resource" uid="uid://c5fcbs1qdrnae" path="res://Scenes/Upgrades/PermaUpgrades/health_upgrade.tres" id="6_shlw6"]
+[ext_resource type="Resource" uid="uid://bphupxhprj1gn" path="res://Scenes/Upgrades/PermaUpgrades/damage_upgrade_perma.tres" id="6_x5wkp"]
+[ext_resource type="Resource" uid="uid://cedwtvuicfmcn" path="res://Scenes/Upgrades/PermaUpgrades/firerate_upgrade_perma.tres" id="7_j7eaw"]
+[ext_resource type="Resource" uid="uid://b808ekfmykcyk" path="res://Scenes/Upgrades/PermaUpgrades/speed_upgrade_perma.tres" id="8_5lixn"]
+[ext_resource type="Texture2D" uid="uid://bmmmgi6xj81fo" path="res://Assets/PNG/speed.png" id="9_r3x5d"]
+[ext_resource type="Texture2D" uid="uid://tn5b6au8qv87" path="res://Assets/PNG/damage.png" id="10_ix3g0"]
+[ext_resource type="Texture2D" uid="uid://cfgm3y53hbb5u" path="res://Assets/PNG/bullets (1).png" id="11_d4yp2"]
+[ext_resource type="Texture2D" uid="uid://d067e8o6evj5b" path="res://Assets/PNG/love-always-wins.png" id="12_h2wot"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y53xd"]
+radius = 443.91
+
+[node name="UpgradePickable" type="Area2D"]
+position = Vector2(934, 286)
+scale = Vector2(0.0527344, 0.0527344)
+script = ExtResource("1_fo5ea")
+upgrade = Array[ExtResource("2_m5kya")]([ExtResource("3_ojha4"), ExtResource("4_wojbo"), ExtResource("5_5d0xa"), ExtResource("6_shlw6"), ExtResource("6_x5wkp"), ExtResource("7_j7eaw"), ExtResource("8_5lixn")])
+
+[node name="Speed" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(18.9622, 0.000235558)
+scale = Vector2(1.7037, 1.77778)
+texture = ExtResource("9_r3x5d")
+
+[node name="Damage" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(18.9622, 0.000235558)
+scale = Vector2(1.7037, 1.77778)
+texture = ExtResource("10_ix3g0")
+
+[node name="Firerate" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(18.9622, 0.000235558)
+scale = Vector2(1.7037, 1.77778)
+texture = ExtResource("11_d4yp2")
+
+[node name="Health" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(18.9622, 0.000235558)
+scale = Vector2(1.7037, 1.77778)
+texture = ExtResource("12_h2wot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_y53xd")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

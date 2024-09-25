@@ -13,6 +13,8 @@ signal blast_boss
 signal kill_player
 signal next_round
 signal shoot_touch
+signal new_upgrade
+signal upgrade_pickup_temporary
 
 var player
 var enemies_left = 0

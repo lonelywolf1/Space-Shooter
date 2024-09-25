@@ -3,6 +3,14 @@ extends Node2D
 @onready var player = $Player
 @onready var camera = $Camera2D
 @onready var round_number = $CanvasLayer/TOP_RIGHT/RoundNumber
+@onready var firerate_counter: Label = $CanvasLayer/Stats/FirerateCounter
+@onready var damage_counter: Label = $CanvasLayer/Stats/DamageCounter
+@onready var speed_counter: Label = $CanvasLayer/Stats/SpeedCounter
+
+@onready var temp_1_sprite: Sprite2D = $CanvasLayer/Stats/temp1
+@onready var temp_2_sprite: Sprite2D = $CanvasLayer/Stats/temp2
+@onready var temp_3_sprite: Sprite2D = $CanvasLayer/Stats/temp3
+
 
 @export var enemies:Array[EnemyHandler]
 @export var total_hp_sprites:Array[Sprite2D]
@@ -21,9 +29,17 @@ var current_round = 0
 
 const boss_position := Vector2(584, 123)
 
+
 #Game Functions
 func _ready():
+	create_new_pickable_upgrade()
 	player_spawn_pos = player.position
+	
+	#Handle stats counters
+	speed_counter.text = str(StatsFramework.player_speed)
+	firerate_counter.text = str(StatsFramework.player_shooting_speed)
+	damage_counter.text = str(randi_range(StatsFramework.player_damage_min, StatsFramework.player_damage_max)) + "~"
+	
 	#Hnadle Signals
 	Events.connect("shoot", fire_bullet)
 	Events.connect("respawn_player", respawn_player)
@@ -49,6 +65,33 @@ func _ready():
 		current_round += 1
 		round_number.text = "ROUND: " + str(current_round)
 		)
+	#Upgrade Handler
+	Events.connect("new_upgrade", create_new_pickable_upgrade)
+	
+	Events.connect("upgrade_pickup_temporary", func(upgrade):
+		if upgrade.type == "fire_rate":
+			temp_3_sprite.show()
+			await Events.timer(upgrade.duration)
+			temp_3_sprite.hide()
+		elif upgrade.type == "damage":
+			temp_2_sprite.show()
+			await Events.timer(upgrade.duration)
+			temp_2_sprite.hide()
+		elif upgrade.type == "speed":
+			temp_1_sprite.show()
+			await Events.timer(upgrade.duration)
+			temp_1_sprite.hide()
+		)
+	
+	StatsFramework.connect("update_player_damage", func(min, max):
+		damage_counter.text = str(randi_range(min, max)) + "~"
+	)
+	StatsFramework.connect("update_player_firerate", func(rate):
+		firerate_counter.text = str(rate)
+	)
+	StatsFramework.connect("update_player_speed", func(speed):
+		speed_counter.text = str(speed)
+	)
 	
 	Events.TOTAL_PLAYER_HEALTH = 3
 	
@@ -128,3 +171,21 @@ func create_blast(blast_position):
 	var new_blast = blast_scene.instantiate()
 	new_blast.position = blast_position
 	add_child(new_blast)
+	
+#Handling Upgrades
+func create_new_pickable_upgrade():
+	var upgrade_scene = preload("res://Scenes/World/upgrade_pickable.tscn")
+	
+	var position_offset = Vector2(randi_range(-200, 200), randi_range(-200, 200))
+	
+	var PLAYER = get_tree().get_first_node_in_group("Player")
+	var player_position = PLAYER.global_position
+	var spawn_position = player_position + position_offset
+	# FOR LATER ---- Update spawn position to be randomly on the screen!
+	var world_rect = Rect2(Vector2(0, 0), get_viewport_rect().size)
+	spawn_position.x = clamp(spawn_position.x, world_rect.position.x, world_rect.position.x + world_rect.size.x)
+	spawn_position.y = clamp(spawn_position.y, world_rect.position.y-20, world_rect.position.y-20 + world_rect.size.y)
+	var upgrade_instance = upgrade_scene.instantiate()
+	upgrade_instance.global_position = spawn_position
+	upgrade_instance.currentUpgrade = upgrade_instance.upgrade[randi_range(0, upgrade_instance.upgrade.size()-1)]
+	add_child(upgrade_instance)

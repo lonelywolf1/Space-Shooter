@@ -13,6 +13,9 @@ var index := 0
 var isControlled := false
 var asteroid_node:CharacterBody2D
 
+var activeUpgrades = {}
+var temporaryUpgrades = []
+
 @export_category("Player Variables")
 @export var shoot_sounds:Array[AudioStream]
 @export var health:HealthComponent
@@ -182,7 +185,6 @@ func animate_single_jet(jet, destination, input, condition):
 	else:
 		jet.scale.y = lerpf(jet.scale.y, 0, 0.05)
 
-
 func _on_controller_timer_timeout():
 	if asteroid_node != null:
 		asteroid_node.isControlled = false
@@ -190,3 +192,11 @@ func _on_controller_timer_timeout():
 	isControlled = true
 	remove_invincibility()
 	Events.control_asteroid.emit(false)
+	
+	
+# handling upgrades
+func apply_upgrade(upgrade: UpgradeModule):
+	if upgrade.isTemporary:
+		StatsFramework.applyTemporaryUpgrades(upgrade)
+	else:
+		StatsFramework.applyPermanentUpgrades(upgrade)

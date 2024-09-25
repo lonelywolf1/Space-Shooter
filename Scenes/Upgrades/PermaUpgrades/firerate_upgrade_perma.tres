@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UpgradeModule" load_steps=2 format=3 uid="uid://cedwtvuicfmcn"]
+
+[ext_resource type="Script" path="res://Scripts/World/upgrade_module.gd" id="1_pmr83"]
+
+[resource]
+script = ExtResource("1_pmr83")
+type = "fire_rate"
+impact = -0.025
+multiplier = 1
+isTemporary = false
+duration = 0

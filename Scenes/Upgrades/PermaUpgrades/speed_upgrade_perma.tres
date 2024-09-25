@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UpgradeModule" load_steps=2 format=3 uid="uid://b808ekfmykcyk"]
+
+[ext_resource type="Script" path="res://Scripts/World/upgrade_module.gd" id="1_14hob"]
+
+[resource]
+script = ExtResource("1_14hob")
+type = "speed"
+impact = 8.0
+multiplier = 1
+isTemporary = false
+duration = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d330rdbdevcdw"]
+[gd_scene load_steps=20 format=3 uid="uid://d330rdbdevcdw"]
 
 [ext_resource type="Script" path="res://Scripts/World/level.gd" id="1_7ufs6"]
 [ext_resource type="PackedScene" uid="uid://cspt2552trc1o" path="res://Scenes/Player/player.tscn" id="2_l1tbf"]
@@ -6,8 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://djm1simxxcuur" path="res://Assets/Tilesheet/simpleSpace_tilesheet.png" id="5_6a70a"]
 [ext_resource type="PackedScene" uid="uid://cntdslw2fgo1a" path="res://Scenes/Enemies/enemies_template.tscn" id="5_qsrfg"]
 [ext_resource type="Script" path="res://Scripts/World/AsteroidTimer.gd" id="5_uk8wg"]
+[ext_resource type="Texture2D" uid="uid://e2qp33rgcnqu" path="res://Assets/PNG/wall-clock.png" id="7_1xuy1"]
+[ext_resource type="Texture2D" uid="uid://cfgm3y53hbb5u" path="res://Assets/PNG/bullets (1).png" id="7_2ae1l"]
 [ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="7_eqq3v"]
+[ext_resource type="Texture2D" uid="uid://tn5b6au8qv87" path="res://Assets/PNG/damage.png" id="8_1cpyt"]
 [ext_resource type="PackedScene" uid="uid://crjr8hoxfug5v" path="res://Scenes/Player/shoot_button.tscn" id="8_vaj01"]
+[ext_resource type="Texture2D" uid="uid://bmmmgi6xj81fo" path="res://Assets/PNG/speed.png" id="9_4dykp"]
 [ext_resource type="PackedScene" uid="uid://m6h4omvpjfvd" path="res://Scenes/Player/shoot_asteroid.tscn" id="9_c8mjd"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_iwequ"]
@@ -258,7 +262,79 @@ text = "5s
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Virtual joystick left" parent="CanvasLayer" instance=ExtResource("7_eqq3v")]
+[node name="Stats" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="temp1" type="Sprite2D" parent="CanvasLayer/Stats"]
+position = Vector2(142.995, 488.775)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("7_1xuy1")
+
+[node name="temp2" type="Sprite2D" parent="CanvasLayer/Stats"]
+position = Vector2(142.995, 536.775)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("7_1xuy1")
+
+[node name="temp3" type="Sprite2D" parent="CanvasLayer/Stats"]
+position = Vector2(142.995, 584.775)
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("7_1xuy1")
+
+[node name="FirerateCounter" type="Label" parent="CanvasLayer/Stats"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 566.0
+offset_right = 207.0
+offset_bottom = 602.0
+pivot_offset = Vector2(62, 18)
+theme_override_font_sizes/font_size = 26
+text = "0.0"
+vertical_alignment = 1
+
+[node name="FireRate" type="Sprite2D" parent="CanvasLayer/Stats"]
+position = Vector2(44, 584)
+scale = Vector2(0.0898438, 0.0898438)
+texture = ExtResource("7_2ae1l")
+
+[node name="DamageCounter" type="Label" parent="CanvasLayer/Stats"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 518.0
+offset_right = 207.0
+offset_bottom = 554.0
+pivot_offset = Vector2(62, 18)
+theme_override_font_sizes/font_size = 26
+text = "0.0"
+vertical_alignment = 1
+
+[node name="Damage" type="Sprite2D" parent="CanvasLayer/Stats"]
+position = Vector2(44, 535.24)
+scale = Vector2(0.0898438, 0.0898438)
+texture = ExtResource("8_1cpyt")
+
+[node name="SpeedCounter" type="Label" parent="CanvasLayer/Stats"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 470.0
+offset_right = 207.0
+offset_bottom = 506.0
+pivot_offset = Vector2(62, 18)
+theme_override_font_sizes/font_size = 26
+text = "100"
+vertical_alignment = 1
+
+[node name="Speed" type="Sprite2D" parent="CanvasLayer/Stats"]
+position = Vector2(45.925, 486.61)
+scale = Vector2(0.11, 0.11)
+texture = ExtResource("9_4dykp")
+
+[node name="Mobile" type="Node" parent="CanvasLayer"]
+
+[node name="Virtual joystick left" parent="CanvasLayer/Mobile" instance=ExtResource("7_eqq3v")]
+visible = false
 offset_left = -168.0
 offset_top = -514.0
 offset_right = 556.0
@@ -268,7 +344,8 @@ pivot_offset = Vector2(360.714, 333.333)
 joystick_mode = 1
 visibility_mode = 2
 
-[node name="Controllers" type="Control" parent="CanvasLayer"]
+[node name="Controllers" type="Control" parent="CanvasLayer/Mobile"]
+visible = false
 layout_mode = 3
 anchors_preset = 3
 anchor_left = 1.0
@@ -282,7 +359,7 @@ offset_bottom = -584.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Shoot_Button" parent="CanvasLayer/Controllers" instance=ExtResource("8_vaj01")]
+[node name="Shoot_Button" parent="CanvasLayer/Mobile/Controllers" instance=ExtResource("8_vaj01")]
 layout_mode = 0
 offset_left = -26.0
 offset_top = -50.0
@@ -290,7 +367,7 @@ offset_right = -18.0
 offset_bottom = -42.0
 pivot_offset = Vector2(1038, 527)
 
-[node name="Shoot_Asteroid" parent="CanvasLayer/Controllers" instance=ExtResource("9_c8mjd")]
+[node name="Shoot_Asteroid" parent="CanvasLayer/Mobile/Controllers" instance=ExtResource("9_c8mjd")]
 layout_mode = 0
 offset_left = 62.0
 offset_top = -160.0

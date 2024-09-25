@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UpgradeModule" load_steps=2 format=3 uid="uid://c5fcbs1qdrnae"]
+
+[ext_resource type="Script" path="res://Scripts/World/upgrade_module.gd" id="1_55gda"]
+
+[resource]
+script = ExtResource("1_55gda")
+type = "health"
+impact = 15.0
+multiplier = 1
+isTemporary = false
+duration = 0
